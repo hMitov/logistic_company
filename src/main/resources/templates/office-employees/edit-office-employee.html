@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Edit office employee</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/office-employees/update/{id}(id=${id})}" th:object="${officeEmployee}" th:method="patch">
+        <div class="form-group">
+            <label for="egn">Egn</label>
+            <input class="form-control mt-4" type="text" th:field="*{egn}" placeholder="Egn" id="egn">
+            <!--            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</span>-->
+
+            <label for="firstName">First name</label>
+            <input class="form-control mt-4" type="text" th:field="*{firstName}" placeholder="First name"
+                   id="firstName">
+
+            <label for="middleName">Middle name</label>
+            <input class="form-control mt-4" type="text" th:field="*{middleName}" placeholder="Middle name"
+                   id="middleName">
+
+            <label for="lastName">Last name</label>
+            <input class="form-control mt-4" type="text" th:field="*{lastName}" placeholder="Last name" id="lastName">
+
+            <label for="salary">Salary</label>
+            <input class="form-control mt-4" type="text" th:field="*{salary}" placeholder="Salary" id="salary">
+
+            <label class="mt-4">Offices:</label><br>
+            <select class="form-control" name="officeAddress">
+                <option th:each="office : ${offices}"
+                        th:text="${office.getOfficeAddress().city + ', ' +
+                                   office.getOfficeAddress().street + ', ' +
+                                   office.getOfficeAddress().streetNum}">
+                </option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Office</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

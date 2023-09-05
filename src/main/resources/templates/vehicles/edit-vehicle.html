@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Edit vehicle</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/vehicles/update/{id}(id=${id})}" th:object="${vehicle}" th:method="patch">
+        <div class="form-group">
+            <label for="brand">Vehicle brand</label>
+            <input class="form-control" type="text" th:field="*{brand}" placeholder="Vehicle brand" id="brand">
+            <label for="brand">Vehicle model</label>
+            <input class="form-control" type="text" th:field="*{model}" placeholder="Vehicle model" id="model">
+            <label for="regPlateNumber">Registration plate number</label>
+            <input class="form-control" type="text" th:field="*{regPlateNumber}" placeholder="Registration plate number"
+            id="regPlateNumber">
+            <!--            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</span>-->
+        </div>
+        <button type="submit" class="btn btn-primary">Update vehicle</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

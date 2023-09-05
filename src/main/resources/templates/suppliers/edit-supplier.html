@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Edit supplier</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/suppliers/update/{id}(id=${id})}" th:object="${supplier}" th:method="patch">
+        <div class="form-group">
+            <label for="egn">Egn</label>
+            <input class="form-control mt-4" type="text" th:field="*{egn}" placeholder="Egn" id="egn">
+            <!--            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</span>-->
+
+            <label for="firstName">First name</label>
+            <input class="form-control mt-4" type="text" th:field="*{firstName}" placeholder="First name"
+                   id="firstName">
+
+            <label for="middleName">Middle name</label>
+            <input class="form-control mt-4" type="text" th:field="*{middleName}" placeholder="Middle name"
+                   id="middleName">
+
+            <label for="lastName">Last name</label>
+            <input class="form-control mt-4" type="text" th:field="*{lastName}" placeholder="Last name" id="lastName">
+
+
+            <label for="salary">Salary</label>
+            <input class="form-control mt-4" type="text" th:field="*{salary}" placeholder="Salary" id="salary">
+
+            <p>Select Driving license categories: </p>
+            <select id="drivingLicenseCategories" th:field="*{drivingLicenseCategories}" multiple="multiple">
+                <option th:each="categoryName : ${drivingLicenseCategories}"
+                        th:text="${categoryName}"
+                        th:value="${categoryName}">
+                </option>
+            </select>
+
+            <p>Select vehicle id: </p>
+            <select class="form-control" name="vehicleId">
+                <option th:each="vehicle : ${vehicles}"
+                        th:text="${vehicle.vehicleId}">
+                </option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Supplier</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

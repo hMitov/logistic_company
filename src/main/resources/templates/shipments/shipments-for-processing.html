@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Show all Shipments</h4>
+<div class="col-12">
+    <h3 th:unless="${shipments} and ${shipments.size()}">There are no shipments!</h3>
+    <div style="max-height: 400px; overflow-y: auto;">
+        <table th:if="${shipments.size()>0}" class="table table-hover"
+               style="table-layout: auto; width: 100%; white-space: nowrap;">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Shipment id</th>
+                <th>Sender's first name</th>
+                <th>Sender's last name</th>
+                <th>Sender's organization name</th>
+                <th>Sender's tel</th>
+                <th>Recipient's first name</th>
+                <th>Recipient's last name</th>
+                <th>Recipient's organization name</th>
+                <th>Recipient's tel</th>
+                <th>Departure point</th>
+                <th>Arrival point</th>
+                <th>Address of departure</th>
+                <th>Address of arrival</th>
+                <th>Weight</th>
+                <th>Delivery price</th>
+                <th>Registrant employee</th>
+                <th>Processed by employee</th>
+                <th>State</th>
+                <th>Delivered time</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN', 'OFFICE_EMPLOYEE', 'SUPPLIER')">Process</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="shipment : ${shipments}">
+                <td th:text="${shipment.id}"></td>
+                <td th:text="${shipment.externalId}"></td>
+                <td th:text="${shipment.getSender().firstName}"></td>
+                <td th:text="${shipment.getSender().lastName}"></td>
+                <td th:text="${shipment.getSender().organizationName}"></td>
+                <td th:text="${shipment.getSender().telephone}"></td>
+                <td th:text="${shipment.getRecipient().firstName}"></td>
+                <td th:text="${shipment.getRecipient().lastName}"></td>
+                <td th:text="${shipment.getRecipient().organizationName}"></td>
+                <td th:text="${shipment.getRecipient().telephone}"></td>
+                <td th:text="${shipment.departurePoint}"></td>
+                <td th:text="${shipment.arrivalPoint}"></td>
+                <td th:text="${shipment.getDepartureAddress().city + ', '
+                         + shipment.getDepartureAddress().street + ', N'
+                         + shipment.getDepartureAddress().streetNum}"></td>
+                <td th:text="${shipment.getArrivalAddress().city + ', '
+                         + shipment.getArrivalAddress().street + ', N'
+                         + shipment.getArrivalAddress().streetNum}"></td>
+                <td th:text="${shipment.weight}"></td>
+                <td th:text="${shipment.price}"></td>
+                <td th:text="${shipment.registrantEmployeeId}"></td>
+                <td th:text="${shipment.processedByEmployeeId}"></td>
+                <td th:text="${shipment.shipmentState}"></td>
+                <td th:text="${shipment.deliveredDateTime}"></td>
+                <td sec:authorize="hasAnyAuthority('ADMIN', 'OFFICE_EMPLOYEE', 'SUPPLIER')">
+                    <a class="btn btn-info"
+                       th:href="@{'/shipments/shipment-process/'+${shipment.id}}">Process</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

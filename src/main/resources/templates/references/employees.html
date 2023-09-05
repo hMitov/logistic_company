@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Show all Employees</h4>
+<div class="col-12">
+    <h3 th:unless="${suppliers} and ${suppliers.size()}">There are no suppliers!</h3>
+    <div style="max-height: 400px; overflow-y: auto;">
+        <h3 th:unless="${suppliers} and ${suppliers.size()}">There are no suppliers!</h3>
+        <h3>Suppliers</h3>
+        <table th:if="${suppliers.size()>0}" class="table table-hover">
+            <th>Id</th>
+            <th>Egn</th>
+            <th>First name</th>
+            <th>Middle name</th>
+            <th>Last name</th>
+            <th>Employee id</th>
+            <th>Salary</th>
+            <th>Date of employee</th>
+            <th>Current employee</th>
+            <th>Driving license categories</th>
+            <th>Vehicle id</th>
+            <tr th:each="supplier : ${suppliers}">
+                <td th:text="${supplier.id}"></td>
+                <td th:text="${supplier.egn}"></td>
+                <td th:text="${supplier.firstName}"></td>
+                <td th:text="${supplier.middleName}"></td>
+                <td th:text="${supplier.lastName}"></td>
+                <td th:text="${supplier.employeeId}"></td>
+                <td th:text="${supplier.salary}"></td>
+                <td th:text="${supplier.dateOfEmploy}"></td>
+                <td th:text="${supplier.getCurrentEmployee() ? 'Yes' : 'No'}"></td>
+                <td th:text="${supplier.getDrivingLicenseCategories()}"></td>
+                <td th:text="${supplier?.getVehicle()?.vehicleId}"></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h3 th:unless="${officeEmployees} and ${officeEmployees.size()}">There are no office employees!</h3>
+        <h3>Office employees</h3>
+        <table th:if="${officeEmployees.size()>0}" class="table table-hover">
+            <th>Id</th>
+            <th>Egn</th>
+            <th>First name</th>
+            <th>Middle name</th>
+            <th>Last name</th>
+            <th>Employee id</th>
+            <th>Salary</th>
+            <th>Date of employ</th>
+            <th>Current employee</th>
+            <th>Office</th>
+            <tr th:each="officeEmployee : ${officeEmployees}">
+                <td th:text="${officeEmployee.id}"></td>
+                <td th:text="${officeEmployee.egn}"></td>
+                <td th:text="${officeEmployee.firstName}"></td>
+                <td th:text="${officeEmployee.middleName}"></td>
+                <td th:text="${officeEmployee.lastName}"></td>
+                <td th:text="${officeEmployee.employeeId}"></td>
+                <td th:text="${officeEmployee.salary}"></td>
+                <td th:text="${officeEmployee.dateOfEmploy}"></td>
+                <td th:text="${officeEmployee.getCurrentEmployee() ? 'Yes' : 'No'}"></td>
+                <td th:text="${officeEmployee.getOffice() ne null and officeEmployee.getOffice().getOfficeAddress() ne null} ? ${officeEmployee.getOffice().getOfficeAddress().city + ', ' + officeEmployee.getOffice().getOfficeAddress().street + ', ' + officeEmployee.getOffice().getOfficeAddress().streetNum} : ''"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

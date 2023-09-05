@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Shipments by sender</h4>
+<div class="col-12">
+    <form th:action="@{/reference/shipments/sent-by-sender}" th:object="${shipmentsBySender}" method="get">
+        <div class="form-group col-6">
+            <h2>Sender's telephone</h2>
+            <input class="form-control mt-4" type="text" th:field="*{telephone}" placeholder="Sender's telephone"
+                   id="senderTelephone">
+            <span class="text-danger" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}">Sender's telephone has error</span>
+        </div>
+        <button type="submit" class="btn btn-primary">Get shipments</button>
+    </form>
+</div>
+</body>
+</html>

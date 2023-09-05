@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Change shipment status</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/shipments/change-status/{id}(id=${id})}" th:object="${statusShipment}" method="post">
+        <div class="form-group">
+            <h3>Shipment sender</h3>
+            <table class="table table-hover">
+                <th>First name</th>
+                <th>Last name</th>
+                <th>City</th>
+                <th>Post code</th>
+                <th>Street</th>
+                <th>Street number</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <tr>
+                    <td th:text="${shipment.getSender().firstName}"></td>
+                    <td th:text="${shipment.getSender().lastName}"></td>
+                    <td th:text="${shipment.getSender().getAddress().city}"></td>
+                    <td th:text="${shipment.getSender().getAddress().postCode}"></td>
+                    <td th:text="${shipment.getSender().getAddress().street}"></td>
+                    <td th:text="${shipment.getSender().getAddress().streetNum}"></td>
+                    <td th:text="${shipment.getSender().telephone}"></td>
+                    <td th:text="${shipment.getSender().email}"></td>
+                </tr>
+            </table>
+            <h3>Shipment recipient</h3>
+            <table class="table table-hover">
+                <th>First name</th>
+                <th>Last name</th>
+                <th>City</th>
+                <th>Post code</th>
+                <th>Street</th>
+                <th>Street number</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <tr>
+                    <td th:text="${shipment.getRecipient().firstName}"></td>
+                    <td th:text="${shipment.getRecipient().lastName}"></td>
+                    <td th:text="${shipment.getRecipient().getAddress().city}"></td>
+                    <td th:text="${shipment.getRecipient().getAddress().postCode}"></td>
+                    <td th:text="${shipment.getRecipient().getAddress().street}"></td>
+                    <td th:text="${shipment.getRecipient().getAddress().streetNum}"></td>
+                    <td th:text="${shipment.getRecipient().telephone}"></td>
+                    <td th:text="${shipment.getRecipient().email}"></td>
+                </tr>
+            </table>
+            <h3>Shipment info</h3>
+            <table class="table table-hover">
+                <th>External Id</th>
+                <th>To office/address</th>
+                <th>Delivery address</th>
+                <th>Registrant employee</th>
+                <th>Shipment state</th>
+                <th>Weight</th>
+                <th>Processed by employee</th>
+                <tr>
+                    <td th:text="${shipment.externalId}"></td>
+                    <td th:text="${shipment.toOfficeOrAddress}"></td>
+                    <td th:text="${shipment.getDeliveryAddress().city + ', '
+                                     + shipment.getDeliveryAddress().street + ', '
+                                     + shipment.getDeliveryAddress().streetNum}"></td>
+                    <td th:text="${shipment.registrantEmployeeId}"></td>
+                    <td th:text="${shipment.shipmentState}"></td>
+                    <td th:text="${shipment.weight}"></td>
+                    <td th:text="${shipment.processedByEmployeeId}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="container">
+            <select class="form-control" name="shipmentStatus">
+                <option th:each="shipmentStatus : ${shipmentStatuses}"
+                        th:text="${shipmentStatus.shipmentState}">
+                </option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Change state</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

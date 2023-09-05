@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<div class="col-6">
+  <h3>Company income for the specified period is: </h3>
+  <h2 th:text="${income} + lv"></h2>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

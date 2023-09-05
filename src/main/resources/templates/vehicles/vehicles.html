@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Show all Vehicles</h4>
+<div class="col-12">
+    <h3 th:unless="${vehicle} and ${vehicles.size()}">There are no vehicles!</h3>
+    <table th:if="${vehicles.size()>0}" class="table table-hover">
+        <th>Id</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Reg. plate number</th>
+        <th>Vehicle id</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN')">Edit</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN')">Delete</th>
+        <tr th:each="vehicle : ${vehicles}">
+            <td th:text="${vehicle.id}"></td>
+            <td th:text="${vehicle.brand}"></td>
+            <td th:text="${vehicle.model}"></td>
+            <td th:text="${vehicle.regPlateNumber}"></td>
+            <td th:text="${vehicle.vehicleId}"></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN')">
+                <a class="btn btn-info"
+                   th:href="@{'/vehicles/edit-vehicle/'+${vehicle.id}}">Edit</a>
+            </td>
+            <td sec:authorize="hasAnyAuthority('ADMIN')">
+                <a class="btn btn-danger"
+                   th:href="@{'/vehicles/'+${vehicle.id} + '/remove'}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

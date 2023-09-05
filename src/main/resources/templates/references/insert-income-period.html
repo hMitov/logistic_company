@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Enter period to calculate income of the company</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/reference/income}" th:object="${shipmentIncome}" method="get">
+        <div class="form-group col-6">
+            <input class="form-control mt-4" type="text" th:field="*{startDate}" placeholder="Start date"
+                   id="startDate">
+            <span class="text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">Start date has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{endDate}" placeholder="End date"
+                   id="endDate">
+            <span class="text-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">End date has error</span>
+        </div>
+        <button type="submit" class="btn btn-primary">Show income</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

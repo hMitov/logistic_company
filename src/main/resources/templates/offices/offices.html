@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Show all Offices</h4>
+<div class="col-12">
+    <h3 th:unless="${offices} and ${offices.size()}">There are no offices!</h3>
+    <div style="max-height: 400px; overflow-y: auto;">
+        <table th:if="${offices.size()>0}" class="table table-hover">
+            <th>Id</th>
+            <th>City</th>
+            <th>Post code</th>
+            <th>Street</th>
+            <th>Street number</th>
+            <th>Telephone</th>
+            <th>Date of establishment</th>
+            <th sec:authorize="hasAnyAuthority('ADMIN')">Edit</th>
+            <th sec:authorize="hasAnyAuthority('ADMIN')">Delete</th>
+            <tr th:each="office : ${offices}">
+                <td th:text="${office.id}"></td>
+                <td th:text="${office.getOfficeAddress().city}"></td>
+                <td th:text="${office.getOfficeAddress().postCode}"></td>
+                <td th:text="${office.getOfficeAddress().street}"></td>
+                <td th:text="${office.getOfficeAddress().streetNum}"></td>
+                <td th:text="${office.telephone}"></td>
+                <td th:text="${office.dateOfEstablishment}"></td>
+                <td sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a class="btn btn-info" th:href="@{'/offices/edit-office/'+${office.id}}">Edit</a>
+                </td>
+                <td sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a class="btn btn-danger" th:href="@{'/offices/'+${office.id} + '/remove'}">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

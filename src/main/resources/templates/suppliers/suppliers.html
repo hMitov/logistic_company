@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Show all Suppliers</h4>
+<div class="col-12">
+    <h3 th:unless="${suppliers} and ${suppliers.size()}">There are no suppliers!</h3>
+    <table th:if="${suppliers.size()>0}" class="table table-hover">
+        <th>Id</th>
+        <th>Egn</th>
+        <th>First name</th>
+        <th>Middle name</th>
+        <th>Last name</th>
+        <th>Employee id</th>
+        <th>Salary</th>
+        <th>Date of employee</th>
+        <th>Driving license categories</th>
+        <th>Vehicle id</th>
+        <th>Currently employee</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN')">Edit</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN')">Delete</th>
+        <tr th:each="supplier : ${suppliers}">
+            <td th:text="${supplier.id}"></td>
+            <td th:text="${supplier.egn}"></td>
+            <td th:text="${supplier.firstName}"></td>
+            <td th:text="${supplier.middleName}"></td>
+            <td th:text="${supplier.lastName}"></td>
+            <td th:text="${supplier.employeeId}"></td>
+            <td th:text="${supplier.salary}"></td>
+            <td th:text="${supplier.dateOfEmploy}"></td>
+            <td th:text="${supplier.getDrivingLicenseCategories()}"></td>
+            <td th:text="${supplier.getVehicle()?.vehicleId}"></td>
+            <td th:text="${supplier.getCurrentEmployee() ? 'Yes' : 'No'}"></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN')">
+                <a class="btn btn-info"
+                   th:href="@{'/suppliers/edit-supplier/'+${supplier.id}}">Edit</a>
+            </td>
+            <td sec:authorize="hasAnyAuthority('ADMIN')">
+                <a class="btn btn-danger"
+                   th:href="@{'/suppliers/' +${supplier.id} + '/remove'}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

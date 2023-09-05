@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Add an office employee</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/office-employees/create}" th:object="${officeEmployee}" method="post">
+        <div class="form-group col-6">
+            <h2>Office employee</h2>
+            <input class="form-control mt-4" type="text" th:field="*{egn}" placeholder="Egn" id="egn">
+            <span class="text-danger" th:if="${#fields.hasErrors('egn')}" th:errors="*{egn}">Egn has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{firstName}" placeholder="First name"
+                   id="firstName">
+            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{middleName}" placeholder="Middle name"
+                   id="middleName">
+            <span class="text-danger" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}">Middle name has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{lastName}" placeholder="Last name"
+                   id="lastName">
+            <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{salary}" placeholder="Salary"
+                   id="salary">
+            <span class="text-danger" th:if="${#fields.hasErrors('salary')}"
+                  th:errors="*{salary}">Salary has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{dateOfEmploy}" placeholder="Date of employ"
+                   id="dateOfEmploy">
+            <span class="text-danger" th:if="${#fields.hasErrors('dateOfEmploy')}" th:errors="*{dateOfEmploy}">
+                <span th:each="error : ${#fields.errors('dateOfEmploy')}" th:text="${error}"></span>
+            </span>
+            <br>
+
+            <label class="mt-4">Offices:</label><br>
+            <select class="form-control" name="officeAddress">
+                <option th:each="office : ${offices}"
+                        th:text="${office.getOfficeAddress().city + ', ' +
+                                   office.getOfficeAddress().street + ', ' +
+                                   office.getOfficeAddress().streetNum}">
+                </option>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('officeAddress')}" th:errors="*{officeAddress}">Office address has error</span>
+            <br>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Office</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

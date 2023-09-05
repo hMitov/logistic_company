@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<link href="multiselect.css" rel="stylesheet">
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Add supplier</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/suppliers/create}" th:object="${supplier}" method="post">
+        <div class="form-group col-6">
+            <h2>Supplier</h2>
+            <input class="form-control mt-4" type="text" th:field="*{egn}" placeholder="Egn" id="egn">
+            <span class="text-danger" th:if="${#fields.hasErrors('egn')}" th:errors="*{egn}">Egn has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{firstName}" placeholder="First name"
+                   id="firstName">
+            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{middleName}" placeholder="Middle name"
+                   id="middleName">
+            <span class="text-danger" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}">Middle name has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{lastName}" placeholder="Last name"
+                   id="lastName">
+            <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{salary}" placeholder="Salary"
+                   id="salary">
+            <span class="text-danger" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">Salary has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{dateOfEmploy}" placeholder="Date of employ"
+                   id="dateOfEmploy">
+            <span class="text-danger" th:if="${#fields.hasErrors('dateOfEmploy')}" th:errors="*{dateOfEmploy}">Date of employee has error</span>
+
+            <div class="container">
+                <p>Select Driving license categories: </p>
+                <select id="drivingLicenseCategories" th:field="*{drivingLicenseCategories}" multiple="multiple">
+                    <option th:each="drivingLicenseCategory : ${drivingLicenseCategories}"
+                            th:text="${drivingLicenseCategory}"
+                            th:value="${drivingLicenseCategory}">
+                    </option>
+                </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('drivingLicenseCategories')}" th:errors="*{drivingLicenseCategories}">Driving license categories has error</span>
+            </div>
+            <p>Assign to vehicle with number: </p>
+            <select class="form-control" name="vehicleId">
+                <option th:each="vehicle : ${vehicles}"
+                        th:text="${vehicle.vehicleId}">
+                </option>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('vehicleId')}" th:errors="*{vehicleId}">Vehicle id has error</span>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Supplier</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

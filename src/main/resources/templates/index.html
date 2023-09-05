@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:fragment="head">
+    <title>Logistic company</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/bootstrap.min.css" rel="stylesheet" th:href="@{/bootstrap.min.css}"/>
+    <script th:src="@{/popper.min.js}"></script>
+    <script th:src="@{/bootstrap.min.js}"></script>
+</head>
+<header th:fragment="header">
+    <div class="row m-0 p-3 bg-info text-white">
+        <h1 class="col-3">Logistic company Speeed</h1>
+        <img th:src="@{/img/truck-large.svg}" style="max-height: 100px; max-width: 100px" alt="">
+        <div class="col-12" sec:authorize="isAuthenticated()">
+            <span sec:authentication="name"></span>
+            <a class="btn" th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img th:src="@{/img/home-outline.svg}" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Office
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                            <li sec:authorize="hasAnyAuthority('ADMIN')"><a class="dropdown-item"
+                                                                            href="/offices/create-office">Create
+                                office</a></li>
+                            <li sec:authorize="isAuthenticated()"><a class="dropdown-item" href="/offices">List of
+                                offices</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Office employee
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                            <li><a class="dropdown-item" href="/office-employees/create-office-employee">Create
+                                office
+                                employee</a></li>
+                            <li><a class="dropdown-item" href="/office-employees">List of office employees</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Supplier
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
+                            <li><a class="dropdown-item" href="/suppliers/create-supplier">Create supplier</a></li>
+                            <li><a class="dropdown-item" href="/suppliers">List of suppliers</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown"
+                        sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Vehicle
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                            <li sec:authorize="hasAnyAuthority('ADMIN')"><a class="dropdown-item"
+                                                                            href="/vehicles/create-vehicle">Create
+                                vehicle</a></li>
+                            <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')"><a
+                                    class="dropdown-item" href="/vehicles">List of vehicles</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown5" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Shipment
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown5">
+                            <li sec:authorize="hasAnyAuthority('ADMIN', 'CUSTOMER', 'OFFICE_EMPLOYEE')">
+                                <a class="dropdown-item" href="/shipments/create-shipment">Create shipment</a>
+                            </li>
+                            <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
+                                <a class="dropdown-item" href="/shipments/transport-ready">Shipments ready for
+                                    transport</a>
+                            </li>
+                            <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
+                                <a class="dropdown-item" href="/shipments/in-transport">Shipments in transport</a>
+                            </li>
+                            <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
+                                <a class="dropdown-item" href="/shipments/process">Shipments for processing</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown6" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Company references
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown6">
+                            <li sec:authorize="hasAnyAuthority('ADMIN')">
+                                <a class="dropdown-item" href="/reference/shipments/employees">List of all employees</a>
+                            </li>
+                            <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
+                                <a class="dropdown-item" href="/reference/shipments">List of all registered
+                                    shipments</a>
+                            </li>
+                            <li sec:authorize="hasAnyAuthority('ADMIN', 'OFFICE_EMPLOYEE')">
+                                <a class="dropdown-item" href="/reference/shipments-by-employee">List of all shipments
+                                    registered by employee</a>
+                            </li>
+                            <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
+                                <a class="dropdown-item" href="/reference/shipments/sent">List of all sent but not
+                                    received shipments</a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()">
+                                <a class="dropdown-item" href="/reference/shipments-by-sender">List of all sent
+                                    shipments by sender</a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()">
+                                <a class="dropdown-item" href="/reference/shipments-by-recipient">List of
+                                    all received shipments by recipient</a>
+                            </li>
+                            <li sec:authorize="hasAnyAuthority('ADMIN')">
+                                <a class="dropdown-item" href="/reference/income-for-period">Total income of company</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a sec:authorize="hasAnyAuthority('ADMIN')" class="nav-link" href="/user/register">Create
+                            employee user</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<footer page-footer font-small>
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="#">Logistic company</a>
+    </div>
+</footer>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Shipments during period</h4>
+<div class="col-12">
+    <form action="#" th:action="@{/shipments/create}" th:object="${companyIncome}" method="post">
+        <div class="form-group col-6">
+            <h2>Start date</h2>
+            <input class="form-control mt-4" type="text" th:field="*{companyIncome.startDate}" id="shipmentStartDate">
+
+            <h2>End date</h2>
+            <input class="form-control mt-4" type="text" th:field="*{companyIncome.endDate}" id="shipmentEndDate">
+        </div>
+    </form>
+</div>
+</body>
+</html>

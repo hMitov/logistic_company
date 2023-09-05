@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Add a vehicle</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/vehicles/create}" th:object="${vehicle}" method="post">
+        <div class="form-group col-6">
+            <h2>Vehicle</h2>
+            <input class="form-control mt-4" type="text" th:field="*{brand}" placeholder="Brand" id="brand">
+            <span class="text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}">Brand field has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{model}" placeholder="Model" id="model">
+            <span class="text-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}">Model's field has error</span>
+
+            <input class="form-control mt-4" type="text" th:field="*{regPlateNumber}"
+                   placeholder="Registration plate number" id="regPlateNumber">
+            <span class="text-danger" th:if="${#fields.hasErrors('regPlateNumber')}" th:errors="*{regPlateNumber}">Registration plate number has error</span>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Vehicle</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

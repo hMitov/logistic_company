@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<link href="multiselect.css" rel="stylesheet">
+<header>
+    <div class="row m-0 p-3 bg-info text-white">
+        <h1 class="col-3">Logistic company Speeed</h1>
+        <img th:src="@{/img/truck-large.svg}" style="max-height: 100px; max-width: 100px" alt="" >
+    </div>
+</header>
+<body>
+<h1 th:text="'Hello and  ' + ${welcome}"></h1>
+<div class="container col-6">
+    <form name="login" th:action="@{/user/register}" th:object="${user}" method="post">
+        <fieldset>
+            <div th:if="${param.error}" class="alert alert-danger">
+                Invalid username and password.
+            </div>
+
+            <div th:if="${param.logout}" class="alert alert-success">
+                You have been logged out.
+            </div>
+            <h4>User details</h4>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text" th:field="*{username} "id="username" name="username" placeholder="Username">
+            </div>
+            <br>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text"  th:field="*{password}" id="password" name="password" placeholder="Password">
+            </div>
+            <p>Assign to roles to user: </p>
+            <select class="form-control" th:field="*{roles}" multiple="multiple">
+                <option th:each="role : ${roles}"
+                        th:text="${role}"
+                        th:value="${role}">
+                </option>
+            </select>
+            <br>
+            <div class="form-actions" style="margin-top: 12px;">
+                <button type="submit" class="btn btn-success">Register</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

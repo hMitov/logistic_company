@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Register a Shipment</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/shipments/create}" th:object="${shipment}" method="post">
+        <div class="form-group col-6">
+            <h2>Sender</h2>
+            <input type="radio" name="senderType" value="physical" id="radioSenderPhysical"
+                   th:checked="${selectedSenderType == 'physical'}">
+            <label for="radioSenderPhysical">physical</label>
+
+            <input type="radio" name="senderType" value="organization" id="radioSenderOrganization"
+                   th:checked="${selectedSenderType == 'organization'}">
+            <label for="radioSenderOrganization">organization</label>
+            <br>
+            <span class="text-danger" th:if="${#fields.hasErrors('sender.customerType')}"
+                  th:errors="*{sender.customerType}">Sender type field has error</span>
+
+
+            <div id="senderPhysicalContent">
+                <input class="form-control mt-4" type="text" th:field="*{sender.firstName}" placeholder="First name"
+                       id="senderFirstName">
+
+                <input class="form-control mt-4" type="text" th:field="*{sender.lastName}" placeholder="Last name"
+                       id="senderLastName">
+            </div>
+            <div id="senderOrganizationContent" style="display:none;">
+                <input class="form-control mt-4" type="text" th:field="*{sender.organizationName}"
+                       placeholder="Organization name"
+                       id="senderOrganizationName">
+            </div>
+            <input class="form-control mt-4" type="text" name="sender.telephone" placeholder="Telephone"
+                   id="senderTelephone">
+            <span class="text-danger" th:if="${#fields.hasErrors('sender.telephone')}" th:errors="*{sender.telephone}">Sender's telephone field has error</span>
+
+            <input class="form-control mt-4" type="text" name="sender.email" placeholder="Email" id="senderEmail">
+            <span class="text-danger" th:if="${#fields.hasErrors('sender.email')}" th:errors="*{sender.email}">Sender's email field has error</span>
+            <br>
+            <br>
+
+            <!-- Departure Point -->
+            <input type="radio" name="departurePoint" value="office" id="radioOffice"
+                   th:checked="${selectedDeparturePoint == 'office'}">
+            <label for="radioOffice">office</label>
+
+            <input type="radio" name="departurePoint" value="address" id="radioAddress"
+                   th:checked="${selectedDeparturePoint == 'address'}">
+            <label for="radioAddress">address</label>
+            <br>
+            <span class="text-danger" th:if="${#fields.hasErrors('departurePoint')}" th:errors="*{departurePoint}">Shipment's departure point field has error</span>
+            <br>
+            <br>
+
+            <div id="officeContent" class="container">
+                <select class="form-control" name="departureAddress">
+                    <option th:each="office : ${offices}"
+                            th:text="${office.getOfficeAddress().city + ', ' + office.getOfficeAddress().street + ', ' +
+                                       office.getOfficeAddress().streetNum}">
+                    </option>
+                </select>
+            </div>
+
+            <div id="addressContent" class="container" style="display:none;">
+                <h3>Address</h3>
+                <input class="form-control mt-4" type="text" name="sender.address.city" placeholder="City"
+                       id="senderCity">
+                <span class="text-danger" th:if="${#fields.hasErrors('sender.address.city')}" th:errors="*{sender.address.city}">Sender's city field has error</span>
+
+                <input class="form-control mt-4" type="text" name="sender.address.postCode" placeholder="Post code"
+                       id="senderPostCode">
+                <span class="text-danger" th:if="${#fields.hasErrors('sender.address.postCode')}" th:errors="*{sender.address.postCode}">Sender's post code field has error</span>
+
+                <input class="form-control mt-4" type="text" name="sender.address.street" placeholder="Street"
+                       id="senderStreet">
+                <span class="text-danger" th:if="${#fields.hasErrors('sender.address.street')}" th:errors="*{sender.address.street}">Sender's street field has error</span>
+
+                <input class="form-control mt-4" type="text" name="sender.address.streetNum" placeholder="Street number"
+                       id="senderStreetNum">
+                <span class="text-danger" th:if="${#fields.hasErrors('sender.address.streetNum')}" th:errors="*{sender.address.streetNum}">Sender's street number field has error</span>
+            </div>
+
+            <input class="form-control mt-4" type="text" name="sender.specialInstructions"
+                   placeholder="Special instructions"
+                   id="senderSpecialInstructions">
+
+
+            <h2>Recipient</h2>
+            <input type="radio" name="recipientType" value="physical" id="radioRecipientPhysical"
+                   th:checked="${selectedRecipientType == 'physical'}">
+            <label for="radioRecipientPhysical">physical</label>
+
+            <input type="radio" name="recipientType" value="organization" id="radioRecipientOrganization"
+                   th:checked="${selectedRecipientType == 'organization'}">
+            <label for="radioRecipientOrganization">organization</label>
+            <br>
+            <span class="text-danger" th:if="${#fields.hasErrors('recipient.customerType')}"
+                  th:errors="*{recipient.customerType}">Recipient customer type field has error</span>
+
+
+            <div id="recipientPhysicalContent">
+                <input class="form-control mt-4" type="text" th:field="*{recipient.firstName}" placeholder="First name"
+                       id="recipientFirstName">
+                <input class="form-control mt-4" type="text" th:field="*{recipient.lastName}" placeholder="Last name"
+                       id="recipientLastName">
+            </div>
+            <div id="recipientOrganizationContent" style="display:none;">
+                <input class="form-control mt-4" type="text" th:field="*{recipient.organizationName}"
+                       placeholder="Organization name"
+                       id="organizationName">
+            </div>
+            <input class="form-control mt-4" type="text" name="recipient.telephone" placeholder="Telephone"
+                   id="recipientTelephone">
+            <span class="text-danger" th:if="${#fields.hasErrors('recipient.telephone')}"
+                  th:errors="*{recipient.telephone}">Recipient's telephone field has error</span>
+            <input class="form-control mt-4" type="text" name="recipient.email" placeholder="Email"
+                   id="recipientEmail">
+            <span class="text-danger" th:if="${#fields.hasErrors('recipient.email')}" th:errors="*{recipient.email}">Recipient's email field has error</span>
+            <br>
+            <br>
+
+            <!-- Arrival Point -->
+            <input type="radio" name="arrivalPoint" value="office" id="radioArrivalOffice"
+                   th:checked="${selectedArrivalPoint == 'office'}">
+            <label for="radioArrivalOffice">office</label>
+
+            <input type="radio" name="arrivalPoint" value="address" id="radioArrivalAddress"
+                   th:checked="${selectedArrivalPoint == 'address'}">
+            <label for="radioArrivalAddress">address</label>
+            <br>
+            <span class="text-danger" th:if="${#fields.hasErrors('arrivalPoint')}"
+                  th:errors="*{arrivalPoint}">Shipment's arrival point field has error</span>
+            <br>
+            <br>
+
+            <div id="arrivalOfficeContent" class="container">
+                <select class="form-control" name="arrivalAddress">
+                    <option th:each="office : ${offices}" th:text="${office.getOfficeAddress().city + ', ' +
+               office.getOfficeAddress().street + ', ' +
+               office.getOfficeAddress().streetNum}">
+                    </option>
+                </select>
+            </div>
+
+            <div id="arrivalAddressContent" class="container" style="display:none;">
+                <h3>Address</h3>
+                <input class="form-control mt-4" type="text" name="recipient.address.city" placeholder="City"
+                       id="recipientCity">
+                <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.city')}" th:errors="*{recipient.address.city}">Recipient's city field has error</span>
+
+                <input class="form-control mt-4" type="text" name="recipient.address.postCode" placeholder="Post code"
+                       id="recipientPostCode">
+                <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.postCode')}" th:errors="*{recipient.address.postCode}">Recipient's postcode field has error</span>
+
+                <input class="form-control mt-4" type="text" name="recipient.address.street" placeholder="Street"
+                       id="recipientStreet">
+                <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.street')}" th:errors="*{recipient.address.street}">Recipient's street field has error</span>
+
+                <input class="form-control mt-4" type="text" name="recipient.address.streetNum"
+                       placeholder="Street number" id="recipientStreetNum">
+                <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.streetNum')}" th:errors="*{recipient.address.streetNum}">Recipient's city field has error</span>
+            </div>
+
+            <input class="form-control mt-4" type="text" name="recipient.specialInstructions"
+                   placeholder="Special instructions"
+                   id="recipientSpecialInstructions">
+
+            <!-- Hidden input fields for mapping sender and recipient types -->
+            <input type="hidden" th:field="*{sender.customerType}" id="senderCustomerTypeHidden"/>
+            <input type="hidden" th:field="*{recipient.customerType}" id="recipientCustomerTypeHidden"/>
+
+            <input class="form-control mt-4" type="text" th:field="*{registrantEmployeeId}"
+                   placeholder="Registrant employee"
+                   id="registrantEmployeeId">
+
+            <button type="submit" class="btn btn-primary">Save Shipment</button>
+        </div>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Handle changes for the departurePoint radio buttons
+        const radioOffice = document.getElementById("radioOffice");
+        const radioAddress = document.getElementById("radioAddress");
+        const officeContent = document.getElementById("officeContent");
+        const addressContent = document.getElementById("addressContent");
+
+        function updateFromOfficeOrAddressVisibility() {
+            if (radioOffice.checked) {
+                officeContent.style.display = "block";
+                addressContent.style.display = "none";
+            } else if (radioAddress.checked) {
+                officeContent.style.display = "none";
+                addressContent.style.display = "block";
+            }
+        }
+
+        radioOffice.addEventListener("change", updateFromOfficeOrAddressVisibility);
+        radioAddress.addEventListener("change", updateFromOfficeOrAddressVisibility);
+        updateFromOfficeOrAddressVisibility();
+
+
+        // Handle changes for the arrivalPoint radio buttons
+        const radioArrivalOffice = document.getElementById("radioArrivalOffice");
+        const radioArrivalAddress = document.getElementById("radioArrivalAddress");
+        const arrivalOfficeContent = document.getElementById("arrivalOfficeContent");
+        const arrivalAddressContent = document.getElementById("arrivalAddressContent");
+
+        function updateToOfficeOrAddressVisibility() {
+            if (radioArrivalOffice.checked) {
+                arrivalOfficeContent.style.display = "block";
+                arrivalAddressContent.style.display = "none";
+            } else if (radioArrivalAddress.checked) {
+                arrivalOfficeContent.style.display = "none";
+                arrivalAddressContent.style.display = "block";
+            }
+        }
+
+        radioArrivalOffice.addEventListener("change", updateToOfficeOrAddressVisibility);
+        radioArrivalAddress.addEventListener("change", updateToOfficeOrAddressVisibility);
+        updateToOfficeOrAddressVisibility();
+
+
+        // Handle changes for the senderType radio buttons
+        const radioSenderPhysical = document.getElementById("radioSenderPhysical");
+        const radioSenderOrganization = document.getElementById("radioSenderOrganization");
+        const senderPhysicalContent = document.getElementById("senderPhysicalContent");
+        const senderOrganizationContent = document.getElementById("senderOrganizationContent");
+
+        function updateSenderTypeVisibility() {
+            if (radioSenderPhysical.checked) {
+                senderPhysicalContent.style.display = "block";
+                senderOrganizationContent.style.display = "none";
+                document.getElementById("senderCustomerTypeHidden").value = "physical";
+            } else if (radioSenderOrganization.checked) {
+                senderPhysicalContent.style.display = "none";
+                senderOrganizationContent.style.display = "block";
+                document.getElementById("senderCustomerTypeHidden").value = "organization";
+            }
+        }
+
+        radioSenderPhysical.addEventListener("change", updateSenderTypeVisibility);
+        radioSenderOrganization.addEventListener("change", updateSenderTypeVisibility);
+        updateSenderTypeVisibility();
+
+
+        // Handle changes for the recipientType radio buttons
+        const radioRecipientPhysical = document.getElementById("radioRecipientPhysical");
+        const radioRecipientOrganization = document.getElementById("radioRecipientOrganization");
+        const recipientPhysicalContent = document.getElementById("recipientPhysicalContent");
+        const recipientOrganizationContent = document.getElementById("recipientOrganizationContent");
+
+        function updateRecipientTypeVisibility() {
+            if (radioRecipientPhysical.checked) {
+                recipientPhysicalContent.style.display = "block";
+                recipientOrganizationContent.style.display = "none";
+                document.getElementById("recipientCustomerTypeHidden").value = "physical";
+            } else if (radioRecipientOrganization.checked) {
+                recipientPhysicalContent.style.display = "none";
+                recipientOrganizationContent.style.display = "block";
+                document.getElementById("recipientCustomerTypeHidden").value = "organization";
+            }
+        }
+
+        radioRecipientPhysical.addEventListener("change", updateRecipientTypeVisibility);
+        radioRecipientOrganization.addEventListener("change", updateRecipientTypeVisibility);
+        updateRecipientTypeVisibility();
+    });
+</script>
+</body>
+</html>

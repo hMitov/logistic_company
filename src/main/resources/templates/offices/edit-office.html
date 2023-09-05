@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Edit office</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/offices/update/{id}(id=${id})}" th:object="${office}" th:method="patch">
+        <div class="form-group">
+            <label for="city">City</label>
+            <input class="form-control" type="text" th:field="*{officeAddress.city}" placeholder="City" id="city">
+            <!--            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</span>-->
+
+            <label for="postCode">Post Code</label>
+            <input class="form-control" type="text" th:field="*{officeAddress.postCode}" placeholder="PostCode"
+                   id="postCode">
+
+            <label for="postCode">Street</label>
+            <input class="form-control" type="text" th:field="*{officeAddress.street}" placeholder="Street" id="street">
+
+            <label for="postCode">Street Number</label>
+            <input class="form-control" type="text" th:field="*{officeAddress.streetNum}" placeholder="Street Number"
+                   id="streetNum">
+
+            <label for="postCode">Telephone</label>
+            <input class="form-control" type="text" th:field="*{telephone}" placeholder="Telephone" id="telephone">
+
+            <label for="postCode">Date of establishment</label>
+            <input class="form-control" type="text"
+                   th:field="*{dateOfEstablishment}"
+                   placeholder="Date of establishment" id="dateOfEstablishment">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Office</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

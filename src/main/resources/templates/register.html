@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head">
+</head>
+<header>
+    <div class="row m-0 p-3 bg-info text-white">
+        <h1 class="col-3">Logistic company Speeed</h1>
+        <img th:src="@{/img/truck-large.svg}" style="max-height: 100px; max-width: 100px" alt="" >
+    </div>
+</header>
+<body>
+<h1 th:text="'Hello and  ' + ${welcome}"></h1>
+<div class="container col-6">
+    <form name="login" th:action="@{/register}" th:object="${account}" method="post">
+        <fieldset>
+            <div th:if="${param.error}" class="alert alert-danger">
+                Invalid username and password.
+            </div>
+
+            <div th:if="${param.logout}" class="alert alert-success">
+                You have been logged out.
+            </div>
+            <h4>Account details</h4>
+            <!-- Login Controls -->
+            <div class="form-group">
+                <input class="form-control mt-4" type="text" th:field="*{firstName}" id="firstName" name="firstName" placeholder="First name">
+            </div>
+            <br>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text" th:field="*{lastName}" id="lastName" name="lastName" placeholder="Last name">
+            </div>
+            <br>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text" th:field="*{telephone}" id="telephone" name="telephone" placeholder="Telephone">
+            </div>
+            <br>
+            <h4>Address</h4>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text" th:field="*{city}" id="city" name="city" placeholder="City">
+            </div>
+            <br>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text" th:field="*{postCode}" id="postCode" name="postCode" placeholder="Post code">
+            </div>
+            <br>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text" th:field="*{street}" id="street" name="street" placeholder="Street">
+            </div>
+            <br>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text" th:field="*{streetNum}" id="streetNumber" name="streetNumber" placeholder="Street number">
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text" th:field="*{user.username} "id="username" name="username" placeholder="Username">
+            </div>
+            <br>
+            <div class="form-group">
+                <input class="form-control mt-4" type="text"  th:field="*{user.password}" id="password" name="password" placeholder="Password">
+            </div>
+            <br>
+            <div class="form-actions" style="margin-top: 12px;">
+                <button type="submit" class="btn btn-success">Sign up</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
