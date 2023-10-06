@@ -50,40 +50,16 @@ public interface DomainAdapter {
     })
     ShipmentResponse convertToShipmentResponse(Shipment shipment);
 
-//    @Mappings({
-//            @Mapping(target = "id", source = "shipment.id"),
-//            @Mapping(target = "externalId", source = "shipment.externalId"),
-//            @Mapping(target = "sender.id", source = "shipment.sender.id"),
-//            @Mapping(target = "sender.firstName", source = "shipment.sender.firstName"),
-//            @Mapping(target = "sender.lastName", source = "shipment.sender.lastName"),
-//            @Mapping(target = "sender.address", source = "shipment.sender.customerAddress"),
-//            @Mapping(target = "sender.telephone", source = "shipment.sender.telephone"),
-//            @Mapping(target = "sender.email", source = "shipment.sender.email"),
-//            @Mapping(target = "recipient.id", source = "shipment.recipient.id"),
-//            @Mapping(target = "recipient.firstName", source = "shipment.recipient.firstName"),
-//            @Mapping(target = "recipient.lastName", source = "shipment.recipient.lastName"),
-//            @Mapping(target = "recipient.address", source = "shipment.recipient.customerAddress"),
-//            @Mapping(target = "recipient.telephone", source = "shipment.recipient.telephone"),
-//            @Mapping(target = "recipient.email", source = "shipment.recipient.email"),
-//            @Mapping(target = "fromOfficeOrAddress", source = "shipment.fromOfficeOrAddress"),
-//            @Mapping(target = "toOfficeOrAddress", source = "shipment.toOfficeOrAddress"),
-//            @Mapping(target = "departureAddress", source = "shipment.departureAddress"),
-//            @Mapping(target = "deliveryAddress", source = "shipment.deliveryAddress"),
-//            @Mapping(target = "weight", source = "shipment.weight"),
-//            @Mapping(target = "registrantEmployeeId", source = "shipment.registrant.id"),
-//            @Mapping(target = "processedByEmployeeId", source = "shipment.processedByEmployee.id"),
-//            @Mapping(target = "shipmentState", source = "shipment.shipmentState.stateName"),
-//            @Mapping(target = "deliveredDateTime", source = "shipment.deliveredDateTime")
-//    })
-//    ShipmentResponse convertToShipmentResponseAll(Shipment shipment);
-
     @Mappings({
             @Mapping(target = "id", source = "shipmentState.id"),
             @Mapping(target = "shipmentState", source = "shipmentState.stateName"),
     })
     ShipmentStateResponse convertToShipmentStateResponse(ShipmentState shipmentState);
+
     AddressResponse convertFromAddressToAddressResponse(Address address);
+
     DrivingCategoryResponse convertToDrivingCategoryResponse(DrivingCategory drivingCategory);
+
     Set<DrivingCategoryResponse> convertToDrivingCategoryResponse(Set<DrivingCategory> drivingCategories);
 
     @Mappings({
@@ -92,23 +68,31 @@ public interface DomainAdapter {
     })
     OfficeEmployeeResponse convertToOfficeEmployeeResponse(OfficeEmployee officeEmployee, AddressResponse addressResponse);
 
-    OfficeEmployeeResponse convertToOfficeEmployeeResponse(OfficeEmployee officeEmployee);
     SupplierResponse convertToSupplierResponse(Supplier supplier);
+
     VehicleResponse convertToVehicleResponse(Vehicle vehicle);
+
     @Mappings({
             @Mapping(target = "suppliers", ignore = true),
     })
     Vehicle convertToVehicle(VehicleResponse vehicle);
+
     @Mappings({
             @Mapping(target = "suppliers", ignore = true),
     })
+    DrivingCategory convertToDrivingCategory(DrivingCategoryResponse drivingCategory);
+
     Set<DrivingCategory> convertToDrivingCategory(Set<DrivingCategoryResponse> drivingCategory);
+
     RecipientResponse convertToRecipientResponse(Recipient recipient);
+
     @Mappings({
             @Mapping(target = "receivedShipments", ignore = true),
     })
     Recipient convertToRecipient(RecipientResponse recipient);
+
     SenderResponse convertToSenderResponse(Sender sender);
+
     @Mappings({
             @Mapping(target = "sentShipments", ignore = true),
     })

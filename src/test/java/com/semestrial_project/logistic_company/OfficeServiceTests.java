@@ -271,7 +271,7 @@ public class OfficeServiceTests {
         assertEquals(response.getId(), ID_1);
         assertThat(response.getOfficeAddress()).usingRecursiveComparison().isEqualTo(new Address());
         assertEquals(response.getTelephone(), data.getTelephone());
-        assertEquals(response.getDateOfEstablishment(), data.getDateOfEstablishment());
+        assertEquals(response.getDateOfEstablishment().toString(), data.getDateOfEstablishment());
     }
 
     @Test
@@ -309,7 +309,7 @@ public class OfficeServiceTests {
         UpdateOffice data = new UpdateOffice();
         data.setOfficeAddress(addressRequest);
         data.setTelephone(TELEPHONE_2);
-        data.setDateOfEstablishment(LocalDate.now());
+        data.setDateOfEstablishment(LocalDate.now().toString());
 
         return data;
     }

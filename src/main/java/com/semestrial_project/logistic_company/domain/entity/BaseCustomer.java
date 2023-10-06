@@ -42,7 +42,6 @@ public class BaseCustomer implements Comparable<BaseCustomer>{
 
     @Column(name = "special_instructions")
     private String specialInstructions;
-
     @Override
     public int compareTo(BaseCustomer baseCustomer) {
         return this.telephone.compareTo(baseCustomer.getTelephone());
