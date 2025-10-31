@@ -3,18 +3,50 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Shipments by employee</h4>
-<div class="col-12">
-    <form th:action="@{/reference/shipments/registered-by-office-employee}" th:object="${shipmentsByEmployee}" method="get">
-        <div class="form-group col-6">
-            <h2>Employee's id</h2>
-            <input class="form-control mt-4" type="text" th:field="*{employeeId}" placeholder="Employee id"
-                   id="employeeId">
-            <span class="text-danger" th:if="${#fields.hasErrors('employeeId')}" th:errors="*{employeeId}">Employee id has error</span>
+
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-search me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+            <div>
+                <h1 class="text-gradient mb-0">Shipments by Employee</h1>
+                <p class="text-muted mb-0">Search for shipments registered by a specific employee</p>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Get shipments</button>
-    </form>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <!-- Search Form -->
+            <div class="form-container fade-in">
+                <h3 class="section-title mb-3">
+                    <i class="fas fa-user-tie me-2"></i>Employee Search
+                </h3>
+                <form th:action="@{/reference/shipments/registered-by-office-employee}" th:object="${shipmentsByEmployee}" method="get">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="employeeId" class="form-label">
+                                    <i class="fas fa-id-badge me-2"></i>Employee ID
+                                </label>
+                                <input class="form-control" type="text" th:field="*{employeeId}" placeholder="Enter employee ID"
+                                       id="employeeId">
+                                <span class="text-danger" th:if="${#fields.hasErrors('employeeId')}" th:errors="*{employeeId}">Employee ID is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>Get Shipments
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+<footer th:replace="fragments :: footer"></footer>
 </body>
 </html>
 

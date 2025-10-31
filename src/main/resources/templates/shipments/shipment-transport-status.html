@@ -3,84 +3,202 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Change shipment status</h4>
-<div class="col-6">
-    <form action="#" th:action="@{/shipments/change-status/{id}(id=${id})}" th:object="${statusShipment}" method="post">
-        <div class="form-group">
-            <h3>Shipment sender</h3>
-            <table class="table table-hover">
-                <th>First name</th>
-                <th>Last name</th>
-                <th>City</th>
-                <th>Post code</th>
-                <th>Street</th>
-                <th>Street number</th>
-                <th>Telephone</th>
-                <th>Email</th>
-                <tr>
-                    <td th:text="${shipment.getSender().firstName}"></td>
-                    <td th:text="${shipment.getSender().lastName}"></td>
-                    <td th:text="${shipment.getSender().getAddress().city}"></td>
-                    <td th:text="${shipment.getSender().getAddress().postCode}"></td>
-                    <td th:text="${shipment.getSender().getAddress().street}"></td>
-                    <td th:text="${shipment.getSender().getAddress().streetNum}"></td>
-                    <td th:text="${shipment.getSender().telephone}"></td>
-                    <td th:text="${shipment.getSender().email}"></td>
-                </tr>
-            </table>
-            <h3>Shipment recipient</h3>
-            <table class="table table-hover">
-                <th>First name</th>
-                <th>Last name</th>
-                <th>City</th>
-                <th>Post code</th>
-                <th>Street</th>
-                <th>Street number</th>
-                <th>Telephone</th>
-                <th>Email</th>
-                <tr>
-                    <td th:text="${shipment.getRecipient().firstName}"></td>
-                    <td th:text="${shipment.getRecipient().lastName}"></td>
-                    <td th:text="${shipment.getRecipient().getAddress().city}"></td>
-                    <td th:text="${shipment.getRecipient().getAddress().postCode}"></td>
-                    <td th:text="${shipment.getRecipient().getAddress().street}"></td>
-                    <td th:text="${shipment.getRecipient().getAddress().streetNum}"></td>
-                    <td th:text="${shipment.getRecipient().telephone}"></td>
-                    <td th:text="${shipment.getRecipient().email}"></td>
-                </tr>
-            </table>
-            <h3>Shipment info</h3>
-            <table class="table table-hover">
-                <th>External Id</th>
-                <th>To office/address</th>
-                <th>Delivery address</th>
-                <th>Registrant employee</th>
-                <th>Shipment state</th>
-                <th>Weight</th>
-                <th>Processed by employee</th>
-                <tr>
-                    <td th:text="${shipment.externalId}"></td>
-                    <td th:text="${shipment.toOfficeOrAddress}"></td>
-                    <td th:text="${shipment.getDeliveryAddress().city + ', '
-                                     + shipment.getDeliveryAddress().street + ', '
-                                     + shipment.getDeliveryAddress().streetNum}"></td>
-                    <td th:text="${shipment.registrantEmployeeId}"></td>
-                    <td th:text="${shipment.shipmentState}"></td>
-                    <td th:text="${shipment.weight}"></td>
-                    <td th:text="${shipment.processedByEmployeeId}"></td>
-                </tr>
-            </table>
+
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-truck me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+            <div>
+                <h1 class="text-gradient mb-0">Transport Status</h1>
+                <p class="text-muted mb-0">View shipment details and change transport status</p>
+            </div>
         </div>
-        <div class="container">
-            <select class="form-control" name="shipmentStatus">
-                <option th:each="shipmentStatus : ${shipmentStatuses}"
-                        th:text="${shipmentStatus.shipmentState}">
-                </option>
-            </select>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <!-- Sender Information -->
+            <div class="table-container fade-in mb-4">
+                <h3 class="section-title mb-3">
+                    <i class="fas fa-user me-2"></i>Sender Information
+                </h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-user me-2"></i>Name</th>
+                                <th><i class="fas fa-map-marker-alt me-2"></i>Address</th>
+                                <th><i class="fas fa-phone me-2"></i>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i th:if="${shipment.getSender().organizationName == null or shipment.getSender().organizationName == ''}" class="fas fa-user me-2 text-primary"></i>
+                                        <strong th:text="${shipment.getSender().firstName + ' ' + shipment.getSender().lastName}"></strong>
+                                    </div>
+                                    <div class="d-flex align-items-center" th:if="${shipment.getSender().organizationName != null and shipment.getSender().organizationName != ''}">
+                                        <i class="fas fa-building me-2 text-muted"></i>
+                                        <strong th:text="${shipment.getSender().organizationName}"></strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span th:text="${shipment.getSender().getAddress().city}"></span>
+                                        <small class="text-muted" th:text="${shipment.getSender().getAddress().postCode}"></small>
+                                        <small class="text-muted" th:text="${shipment.getSender().getAddress().street + ', ' + shipment.getSender().getAddress().streetNum}"></small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span th:text="${shipment.getSender().telephone}"></span>
+                                        <small class="text-muted" th:text="${shipment.getSender().email}"></small>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recipient Information -->
+            <div class="table-container fade-in mb-4">
+                <h3 class="section-title mb-3">
+                    <i class="fas fa-user-friends me-2"></i>Recipient Information
+                </h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-user me-2"></i>Name</th>
+                                <th><i class="fas fa-map-marker-alt me-2"></i>Address</th>
+                                <th><i class="fas fa-phone me-2"></i>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i th:if="${shipment.getRecipient().organizationName == null or shipment.getRecipient().organizationName == ''}" class="fas fa-user me-2 text-primary"></i>
+                                        <strong th:text="${shipment.getRecipient().firstName + ' ' + shipment.getRecipient().lastName}"></strong>
+                                    </div>
+                                    <div class="d-flex align-items-center" th:if="${shipment.getRecipient().organizationName != null and shipment.getRecipient().organizationName != ''}">
+                                        <i class="fas fa-building me-2 text-muted"></i>
+                                        <strong th:text="${shipment.getRecipient().organizationName}"></strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span th:text="${shipment.getRecipient().getAddress().city}"></span>
+                                        <small class="text-muted" th:text="${shipment.getRecipient().getAddress().postCode}"></small>
+                                        <small class="text-muted" th:text="${shipment.getRecipient().getAddress().street + ', ' + shipment.getRecipient().getAddress().streetNum}"></small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span th:text="${shipment.getRecipient().telephone}"></span>
+                                        <small class="text-muted" th:text="${shipment.getRecipient().email}"></small>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Shipment Information -->
+            <div class="table-container fade-in mb-4">
+                <h3 class="section-title mb-3">
+                    <i class="fas fa-info-circle me-2"></i>Shipment Information
+                </h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-barcode me-2"></i>External ID</th>
+                                <th><i class="fas fa-route me-2"></i>Route</th>
+                                <th><i class="fas fa-map-marker-alt me-2"></i>Delivery Address</th>
+                                <th><i class="fas fa-user-tie me-2"></i>Employees</th>
+                                <th><i class="fas fa-weight me-2"></i>Weight</th>
+                                <th><i class="fas fa-info-circle me-2"></i>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <code th:text="${shipment.externalId}"></code>
+                                </td>
+                                <td>
+                                    <span th:text="${shipment.toOfficeOrAddress}"></span>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span th:text="${shipment.getDeliveryAddress().city}"></span>
+                                        <small class="text-muted" th:text="${shipment.getDeliveryAddress().street + ', ' + shipment.getDeliveryAddress().streetNum}"></small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <small class="text-muted">
+                                            <i class="fas fa-user-plus me-1"></i>
+                                            <span th:text="'Reg: ' + ${shipment.registrantEmployeeId}"></span>
+                                        </small>
+                                        <small class="text-muted" th:if="${shipment.processedByEmployeeId}">
+                                            <i class="fas fa-user-check me-1"></i>
+                                            <span th:text="'Proc: ' + ${shipment.processedByEmployeeId}"></span>
+                                        </small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-warning" th:text="${shipment.weight != null and shipment.weight != 'null' ? shipment.weight + ' kg' : '-'}"></span>
+                                </td>
+                                <td>
+                                    <span class="badge" 
+                                          th:classappend="${shipment.shipmentState == 'DELIVERED'} ? 'badge-success' : 
+                                                         (${shipment.shipmentState == 'IN_TRANSPORT'} ? 'badge-info' : 
+                                                         (${shipment.shipmentState == 'READY_FOR_TRANSPORT'} ? 'badge-warning' : 'badge-secondary'))"
+                                          th:text="${shipment.shipmentState}"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Status Change Form -->
+            <div class="form-container fade-in">
+                <h3 class="section-title mb-3">
+                    <i class="fas fa-edit me-2"></i>Change Transport Status
+                </h3>
+                <form action="#" th:action="@{/shipments/change-status/{id}(id=${id})}" th:object="${statusShipment}" method="post">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="shipmentStatus" class="form-label">
+                                    <i class="fas fa-list me-2"></i>New Status
+                                </label>
+                                <select class="form-control" name="shipmentStatus" id="shipmentStatus">
+                                    <option value="">Select new status...</option>
+                                    <option th:each="shipmentStatus : ${shipmentStatuses}"
+                                            th:value="${shipmentStatus.shipmentState}"
+                                            th:text="${shipmentStatus.shipmentState}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-save me-2"></i>Change Status
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Change state</button>
-    </form>
+    </div>
 </div>
+
 <footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

@@ -3,181 +3,458 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Register a Shipment</h4>
-<div class="col-6">
-    <form action="#" th:action="@{/shipments/create}" th:object="${shipment}" method="post">
-        <div class="form-group col-6">
-            <h2>Sender</h2>
-            <input type="radio" name="senderType" value="physical" id="radioSenderPhysical"
-                   th:checked="${selectedSenderType == 'physical'}">
-            <label for="radioSenderPhysical">physical</label>
 
-            <input type="radio" name="senderType" value="organization" id="radioSenderOrganization"
-                   th:checked="${selectedSenderType == 'organization'}">
-            <label for="radioSenderOrganization">organization</label>
-            <br>
-            <span class="text-danger" th:if="${#fields.hasErrors('sender.customerType')}"
-                  th:errors="*{sender.customerType}">Sender type field has error</span>
-
-
-            <div id="senderPhysicalContent">
-                <input class="form-control mt-4" type="text" th:field="*{sender.firstName}" placeholder="First name"
-                       id="senderFirstName">
-
-                <input class="form-control mt-4" type="text" th:field="*{sender.lastName}" placeholder="Last name"
-                       id="senderLastName">
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-plus-circle me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+            <div>
+                <h1 class="text-gradient mb-0">Register a Shipment</h1>
+                <p class="text-muted mb-0">Create a new shipment with sender and recipient information</p>
             </div>
-            <div id="senderOrganizationContent" style="display:none;">
-                <input class="form-control mt-4" type="text" th:field="*{sender.organizationName}"
-                       placeholder="Organization name"
-                       id="senderOrganizationName">
-            </div>
-            <input class="form-control mt-4" type="text" name="sender.telephone" placeholder="Telephone"
-                   id="senderTelephone">
-            <span class="text-danger" th:if="${#fields.hasErrors('sender.telephone')}" th:errors="*{sender.telephone}">Sender's telephone field has error</span>
-
-            <input class="form-control mt-4" type="text" name="sender.email" placeholder="Email" id="senderEmail">
-            <span class="text-danger" th:if="${#fields.hasErrors('sender.email')}" th:errors="*{sender.email}">Sender's email field has error</span>
-            <br>
-            <br>
-
-            <!-- Departure Point -->
-            <input type="radio" name="departurePoint" value="office" id="radioOffice"
-                   th:checked="${selectedDeparturePoint == 'office'}">
-            <label for="radioOffice">office</label>
-
-            <input type="radio" name="departurePoint" value="address" id="radioAddress"
-                   th:checked="${selectedDeparturePoint == 'address'}">
-            <label for="radioAddress">address</label>
-            <br>
-            <span class="text-danger" th:if="${#fields.hasErrors('departurePoint')}" th:errors="*{departurePoint}">Shipment's departure point field has error</span>
-            <br>
-            <br>
-
-            <div id="officeContent" class="container">
-                <select class="form-control" name="departureAddress">
-                    <option th:each="office : ${offices}"
-                            th:text="${office.getOfficeAddress().city + ', ' + office.getOfficeAddress().street + ', ' +
-                                       office.getOfficeAddress().streetNum}">
-                    </option>
-                </select>
-            </div>
-
-            <div id="addressContent" class="container" style="display:none;">
-                <h3>Address</h3>
-                <input class="form-control mt-4" type="text" name="sender.address.city" placeholder="City"
-                       id="senderCity">
-                <span class="text-danger" th:if="${#fields.hasErrors('sender.address.city')}" th:errors="*{sender.address.city}">Sender's city field has error</span>
-
-                <input class="form-control mt-4" type="text" name="sender.address.postCode" placeholder="Post code"
-                       id="senderPostCode">
-                <span class="text-danger" th:if="${#fields.hasErrors('sender.address.postCode')}" th:errors="*{sender.address.postCode}">Sender's post code field has error</span>
-
-                <input class="form-control mt-4" type="text" name="sender.address.street" placeholder="Street"
-                       id="senderStreet">
-                <span class="text-danger" th:if="${#fields.hasErrors('sender.address.street')}" th:errors="*{sender.address.street}">Sender's street field has error</span>
-
-                <input class="form-control mt-4" type="text" name="sender.address.streetNum" placeholder="Street number"
-                       id="senderStreetNum">
-                <span class="text-danger" th:if="${#fields.hasErrors('sender.address.streetNum')}" th:errors="*{sender.address.streetNum}">Sender's street number field has error</span>
-            </div>
-
-            <input class="form-control mt-4" type="text" name="sender.specialInstructions"
-                   placeholder="Special instructions"
-                   id="senderSpecialInstructions">
-
-
-            <h2>Recipient</h2>
-            <input type="radio" name="recipientType" value="physical" id="radioRecipientPhysical"
-                   th:checked="${selectedRecipientType == 'physical'}">
-            <label for="radioRecipientPhysical">physical</label>
-
-            <input type="radio" name="recipientType" value="organization" id="radioRecipientOrganization"
-                   th:checked="${selectedRecipientType == 'organization'}">
-            <label for="radioRecipientOrganization">organization</label>
-            <br>
-            <span class="text-danger" th:if="${#fields.hasErrors('recipient.customerType')}"
-                  th:errors="*{recipient.customerType}">Recipient customer type field has error</span>
-
-
-            <div id="recipientPhysicalContent">
-                <input class="form-control mt-4" type="text" th:field="*{recipient.firstName}" placeholder="First name"
-                       id="recipientFirstName">
-                <input class="form-control mt-4" type="text" th:field="*{recipient.lastName}" placeholder="Last name"
-                       id="recipientLastName">
-            </div>
-            <div id="recipientOrganizationContent" style="display:none;">
-                <input class="form-control mt-4" type="text" th:field="*{recipient.organizationName}"
-                       placeholder="Organization name"
-                       id="organizationName">
-            </div>
-            <input class="form-control mt-4" type="text" name="recipient.telephone" placeholder="Telephone"
-                   id="recipientTelephone">
-            <span class="text-danger" th:if="${#fields.hasErrors('recipient.telephone')}"
-                  th:errors="*{recipient.telephone}">Recipient's telephone field has error</span>
-            <input class="form-control mt-4" type="text" name="recipient.email" placeholder="Email"
-                   id="recipientEmail">
-            <span class="text-danger" th:if="${#fields.hasErrors('recipient.email')}" th:errors="*{recipient.email}">Recipient's email field has error</span>
-            <br>
-            <br>
-
-            <!-- Arrival Point -->
-            <input type="radio" name="arrivalPoint" value="office" id="radioArrivalOffice"
-                   th:checked="${selectedArrivalPoint == 'office'}">
-            <label for="radioArrivalOffice">office</label>
-
-            <input type="radio" name="arrivalPoint" value="address" id="radioArrivalAddress"
-                   th:checked="${selectedArrivalPoint == 'address'}">
-            <label for="radioArrivalAddress">address</label>
-            <br>
-            <span class="text-danger" th:if="${#fields.hasErrors('arrivalPoint')}"
-                  th:errors="*{arrivalPoint}">Shipment's arrival point field has error</span>
-            <br>
-            <br>
-
-            <div id="arrivalOfficeContent" class="container">
-                <select class="form-control" name="arrivalAddress">
-                    <option th:each="office : ${offices}" th:text="${office.getOfficeAddress().city + ', ' +
-               office.getOfficeAddress().street + ', ' +
-               office.getOfficeAddress().streetNum}">
-                    </option>
-                </select>
-            </div>
-
-            <div id="arrivalAddressContent" class="container" style="display:none;">
-                <h3>Address</h3>
-                <input class="form-control mt-4" type="text" name="recipient.address.city" placeholder="City"
-                       id="recipientCity">
-                <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.city')}" th:errors="*{recipient.address.city}">Recipient's city field has error</span>
-
-                <input class="form-control mt-4" type="text" name="recipient.address.postCode" placeholder="Post code"
-                       id="recipientPostCode">
-                <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.postCode')}" th:errors="*{recipient.address.postCode}">Recipient's postcode field has error</span>
-
-                <input class="form-control mt-4" type="text" name="recipient.address.street" placeholder="Street"
-                       id="recipientStreet">
-                <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.street')}" th:errors="*{recipient.address.street}">Recipient's street field has error</span>
-
-                <input class="form-control mt-4" type="text" name="recipient.address.streetNum"
-                       placeholder="Street number" id="recipientStreetNum">
-                <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.streetNum')}" th:errors="*{recipient.address.streetNum}">Recipient's city field has error</span>
-            </div>
-
-            <input class="form-control mt-4" type="text" name="recipient.specialInstructions"
-                   placeholder="Special instructions"
-                   id="recipientSpecialInstructions">
-
-            <!-- Hidden input fields for mapping sender and recipient types -->
-            <input type="hidden" th:field="*{sender.customerType}" id="senderCustomerTypeHidden"/>
-            <input type="hidden" th:field="*{recipient.customerType}" id="recipientCustomerTypeHidden"/>
-
-            <input class="form-control mt-4" type="text" th:field="*{registrantEmployeeId}"
-                   placeholder="Registrant employee"
-                   id="registrantEmployeeId">
-
-            <button type="submit" class="btn btn-primary">Save Shipment</button>
         </div>
-    </form>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="form-container fade-in">
+                <form action="#" th:action="@{/shipments/create}" th:object="${shipment}" method="post">
+                    <!-- Sender Section -->
+                    <div class="form-section mb-4">
+                        <h3 class="section-title">
+                            <i class="fas fa-user me-2"></i>Sender Information
+                        </h3>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label">
+                                    <i class="fas fa-user-tag me-2"></i>Sender Type
+                                </label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="senderType" value="physical" id="radioSenderPhysical"
+                                           th:checked="${selectedSenderType == 'physical'}">
+                                    <label class="form-check-label" for="radioSenderPhysical">
+                                        <i class="fas fa-user me-1"></i>Physical Person
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="senderType" value="organization" id="radioSenderOrganization"
+                                           th:checked="${selectedSenderType == 'organization'}">
+                                    <label class="form-check-label" for="radioSenderOrganization">
+                                        <i class="fas fa-building me-1"></i>Organization
+                                    </label>
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('sender.customerType')}"
+                                      th:errors="*{sender.customerType}">Sender type is required</span>
+                            </div>
+                        </div>
+
+                        <div id="senderPhysicalContent">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="senderFirstName" class="form-label">
+                                            <i class="fas fa-user me-2"></i>First Name
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{sender.firstName}" 
+                                               placeholder="Enter first name" id="senderFirstName">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="senderLastName" class="form-label">
+                                            <i class="fas fa-user me-2"></i>Last Name
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{sender.lastName}" 
+                                               placeholder="Enter last name" id="senderLastName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="senderOrganizationContent" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="senderOrganizationName" class="form-label">
+                                            <i class="fas fa-building me-2"></i>Organization Name
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{sender.organizationName}"
+                                               placeholder="Enter organization name" id="senderOrganizationName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="senderTelephone" class="form-label">
+                                        <i class="fas fa-phone me-2"></i>Telephone
+                                    </label>
+                                    <input class="form-control" type="tel" name="sender.telephone" 
+                                           placeholder="Enter telephone number" id="senderTelephone">
+                                    <span class="text-danger" th:if="${#fields.hasErrors('sender.telephone')}" 
+                                          th:errors="*{sender.telephone}">Telephone is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="senderEmail" class="form-label">
+                                        <i class="fas fa-envelope me-2"></i>Email
+                                    </label>
+                                    <input class="form-control" type="email" name="sender.email" 
+                                           placeholder="Enter email address" id="senderEmail">
+                                    <span class="text-danger" th:if="${#fields.hasErrors('sender.email')}" 
+                                          th:errors="*{sender.email}">Email is required</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Departure Point -->
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Departure Point
+                                </label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="departurePoint" value="office" id="radioOffice"
+                                           th:checked="${selectedDeparturePoint == 'office'}">
+                                    <label class="form-check-label" for="radioOffice">
+                                        <i class="fas fa-building me-1"></i>Office
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="departurePoint" value="address" id="radioAddress"
+                                           th:checked="${selectedDeparturePoint == 'address'}">
+                                    <label class="form-check-label" for="radioAddress">
+                                        <i class="fas fa-home me-1"></i>Address
+                                    </label>
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('departurePoint')}" 
+                                      th:errors="*{departurePoint}">Departure point is required</span>
+                            </div>
+                        </div>
+
+                        <div id="officeContent">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="departureAddress" class="form-label">
+                                            <i class="fas fa-building me-2"></i>Select Office
+                                        </label>
+                                        <select class="form-control" name="departureAddress" id="departureAddress">
+                                            <option value="">Select an office...</option>
+                                            <option th:each="office : ${offices}"
+                                                    th:value="${office.getOfficeAddress().city + ', ' + office.getOfficeAddress().street + ', ' + office.getOfficeAddress().streetNum}"
+                                                    th:text="${office.getOfficeAddress().city + ', ' + office.getOfficeAddress().street + ', ' +
+                                                               office.getOfficeAddress().streetNum}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="addressContent" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="senderCity" class="form-label">
+                                            <i class="fas fa-city me-2"></i>City
+                                        </label>
+                                        <input class="form-control" type="text" name="sender.address.city" 
+                                               placeholder="Enter city" id="senderCity">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('sender.address.city')}" 
+                                              th:errors="*{sender.address.city}">City is required</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="senderPostCode" class="form-label">
+                                            <i class="fas fa-mail-bulk me-2"></i>Postal Code
+                                        </label>
+                                        <input class="form-control" type="text" name="sender.address.postCode" 
+                                               placeholder="Enter postal code" id="senderPostCode">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('sender.address.postCode')}" 
+                                              th:errors="*{sender.address.postCode}">Postal code is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="senderStreet" class="form-label">
+                                            <i class="fas fa-road me-2"></i>Street
+                                        </label>
+                                        <input class="form-control" type="text" name="sender.address.street" 
+                                               placeholder="Enter street name" id="senderStreet">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('sender.address.street')}" 
+                                              th:errors="*{sender.address.street}">Street is required</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="senderStreetNum" class="form-label">
+                                            <i class="fas fa-hashtag me-2"></i>Street Number
+                                        </label>
+                                        <input class="form-control" type="text" name="sender.address.streetNum" 
+                                               placeholder="Enter street number" id="senderStreetNum">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('sender.address.streetNum')}" 
+                                              th:errors="*{sender.address.streetNum}">Street number is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="senderSpecialInstructions" class="form-label">
+                                        <i class="fas fa-comment me-2"></i>Special Instructions
+                                    </label>
+                                    <textarea class="form-control" name="sender.specialInstructions"
+                                              placeholder="Enter any special instructions for the sender"
+                                              id="senderSpecialInstructions" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Recipient Section -->
+                    <div class="form-section mb-4">
+                        <h3 class="section-title">
+                            <i class="fas fa-user-friends me-2"></i>Recipient Information
+                        </h3>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label">
+                                    <i class="fas fa-user-tag me-2"></i>Recipient Type
+                                </label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="recipientType" value="physical" id="radioRecipientPhysical"
+                                           th:checked="${selectedRecipientType == 'physical'}">
+                                    <label class="form-check-label" for="radioRecipientPhysical">
+                                        <i class="fas fa-user me-1"></i>Physical Person
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="recipientType" value="organization" id="radioRecipientOrganization"
+                                           th:checked="${selectedRecipientType == 'organization'}">
+                                    <label class="form-check-label" for="radioRecipientOrganization">
+                                        <i class="fas fa-building me-1"></i>Organization
+                                    </label>
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('recipient.customerType')}"
+                                      th:errors="*{recipient.customerType}">Recipient type is required</span>
+                            </div>
+                        </div>
+
+                        <div id="recipientPhysicalContent">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="recipientFirstName" class="form-label">
+                                            <i class="fas fa-user me-2"></i>First Name
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{recipient.firstName}" 
+                                               placeholder="Enter first name" id="recipientFirstName">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="recipientLastName" class="form-label">
+                                            <i class="fas fa-user me-2"></i>Last Name
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{recipient.lastName}" 
+                                               placeholder="Enter last name" id="recipientLastName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="recipientOrganizationContent" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="organizationName" class="form-label">
+                                            <i class="fas fa-building me-2"></i>Organization Name
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{recipient.organizationName}"
+                                               placeholder="Enter organization name" id="organizationName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipientTelephone" class="form-label">
+                                        <i class="fas fa-phone me-2"></i>Telephone
+                                    </label>
+                                    <input class="form-control" type="tel" name="recipient.telephone" 
+                                           placeholder="Enter telephone number" id="recipientTelephone">
+                                    <span class="text-danger" th:if="${#fields.hasErrors('recipient.telephone')}"
+                                          th:errors="*{recipient.telephone}">Telephone is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipientEmail" class="form-label">
+                                        <i class="fas fa-envelope me-2"></i>Email
+                                    </label>
+                                    <input class="form-control" type="email" name="recipient.email" 
+                                           placeholder="Enter email address" id="recipientEmail">
+                                    <span class="text-danger" th:if="${#fields.hasErrors('recipient.email')}" 
+                                          th:errors="*{recipient.email}">Email is required</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Arrival Point -->
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Arrival Point
+                                </label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="arrivalPoint" value="office" id="radioArrivalOffice"
+                                           th:checked="${selectedArrivalPoint == 'office'}">
+                                    <label class="form-check-label" for="radioArrivalOffice">
+                                        <i class="fas fa-building me-1"></i>Office
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="arrivalPoint" value="address" id="radioArrivalAddress"
+                                           th:checked="${selectedArrivalPoint == 'address'}">
+                                    <label class="form-check-label" for="radioArrivalAddress">
+                                        <i class="fas fa-home me-1"></i>Address
+                                    </label>
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('arrivalPoint')}"
+                                      th:errors="*{arrivalPoint}">Arrival point is required</span>
+                            </div>
+                        </div>
+
+                        <div id="arrivalOfficeContent">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="arrivalAddress" class="form-label">
+                                            <i class="fas fa-building me-2"></i>Select Office
+                                        </label>
+                                        <select class="form-control" name="arrivalAddress" id="arrivalAddress">
+                                            <option value="">Select an office...</option>
+                                            <option th:each="office : ${offices}" 
+                                                    th:value="${office.getOfficeAddress().city + ', ' + office.getOfficeAddress().street + ', ' + office.getOfficeAddress().streetNum}"
+                                                    th:text="${office.getOfficeAddress().city + ', ' +
+                                                               office.getOfficeAddress().street + ', ' +
+                                                               office.getOfficeAddress().streetNum}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="arrivalAddressContent" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="recipientCity" class="form-label">
+                                            <i class="fas fa-city me-2"></i>City
+                                        </label>
+                                        <input class="form-control" type="text" name="recipient.address.city" 
+                                               placeholder="Enter city" id="recipientCity">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.city')}" 
+                                              th:errors="*{recipient.address.city}">City is required</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="recipientPostCode" class="form-label">
+                                            <i class="fas fa-mail-bulk me-2"></i>Postal Code
+                                        </label>
+                                        <input class="form-control" type="text" name="recipient.address.postCode" 
+                                               placeholder="Enter postal code" id="recipientPostCode">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.postCode')}" 
+                                              th:errors="*{recipient.address.postCode}">Postal code is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="recipientStreet" class="form-label">
+                                            <i class="fas fa-road me-2"></i>Street
+                                        </label>
+                                        <input class="form-control" type="text" name="recipient.address.street" 
+                                               placeholder="Enter street name" id="recipientStreet">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.street')}" 
+                                              th:errors="*{recipient.address.street}">Street is required</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="recipientStreetNum" class="form-label">
+                                            <i class="fas fa-hashtag me-2"></i>Street Number
+                                        </label>
+                                        <input class="form-control" type="text" name="recipient.address.streetNum"
+                                               placeholder="Enter street number" id="recipientStreetNum">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('recipient.address.streetNum')}" 
+                                              th:errors="*{recipient.address.streetNum}">Street number is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="recipientSpecialInstructions" class="form-label">
+                                        <i class="fas fa-comment me-2"></i>Special Instructions
+                                    </label>
+                                    <textarea class="form-control" name="recipient.specialInstructions"
+                                              placeholder="Enter any special instructions for the recipient"
+                                              id="recipientSpecialInstructions" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Information Section -->
+                    <div class="form-section mb-4">
+                        <h3 class="section-title">
+                            <i class="fas fa-info-circle me-2"></i>Additional Information
+                        </h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="registrantEmployeeId" class="form-label">
+                                        <i class="fas fa-user-tie me-2"></i>Registrant Employee ID
+                                    </label>
+                                    <input class="form-control" type="text" th:field="*{registrantEmployeeId}"
+                                           placeholder="Enter registrant employee ID" id="registrantEmployeeId">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden input fields for mapping sender and recipient types -->
+                    <input type="hidden" th:field="*{sender.customerType}" id="senderCustomerTypeHidden"/>
+                    <input type="hidden" th:field="*{recipient.customerType}" id="recipientCustomerTypeHidden"/>
+
+                    <div class="form-actions mt-4">
+                        <button type="submit" class="btn btn-primary me-3">
+                            <i class="fas fa-save me-2"></i>Save Shipment
+                        </button>
+                        <a href="/shipments" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <footer th:replace="fragments :: footer"></footer>
 <script>

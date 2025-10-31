@@ -3,35 +3,110 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Edit office</h4>
-<div class="col-6">
-    <form action="#" th:action="@{/offices/update/{id}(id=${id})}" th:object="${office}" th:method="patch">
-        <div class="form-group">
-            <label for="city">City</label>
-            <input class="form-control" type="text" th:field="*{officeAddress.city}" placeholder="City" id="city">
-            <!--            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</span>-->
-
-            <label for="postCode">Post Code</label>
-            <input class="form-control" type="text" th:field="*{officeAddress.postCode}" placeholder="PostCode"
-                   id="postCode">
-
-            <label for="postCode">Street</label>
-            <input class="form-control" type="text" th:field="*{officeAddress.street}" placeholder="Street" id="street">
-
-            <label for="postCode">Street Number</label>
-            <input class="form-control" type="text" th:field="*{officeAddress.streetNum}" placeholder="Street Number"
-                   id="streetNum">
-
-            <label for="postCode">Telephone</label>
-            <input class="form-control" type="text" th:field="*{telephone}" placeholder="Telephone" id="telephone">
-
-            <label for="postCode">Date of establishment</label>
-            <input class="form-control" type="text"
-                   th:field="*{dateOfEstablishment}"
-                   placeholder="Date of establishment" id="dateOfEstablishment">
+<div class="main-content">
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-edit me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+            <div>
+                <h1 class="text-gradient mb-0">Edit Office</h1>
+                <p class="text-muted mb-0">Update office location information and details</p>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Update Office</button>
-    </form>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-container fade-in">
+                <form action="#" th:action="@{/offices/update/{id}(id=${id})}" th:object="${office}" th:method="patch">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="city" class="form-label">
+                                    <i class="fas fa-city me-2"></i>City
+                                </label>
+                                <input class="form-control" type="text" th:field="*{officeAddress.city}" 
+                                       placeholder="Enter city name" id="city" required>
+                                <span class="text-danger" th:if="${#fields.hasErrors('officeAddress.city')}" 
+                                      th:errors="*{officeAddress.city}">City is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="postCode" class="form-label">
+                                    <i class="fas fa-mail-bulk me-2"></i>Postal Code
+                                </label>
+                                <input class="form-control" type="text" th:field="*{officeAddress.postCode}" 
+                                       placeholder="Enter postal code" id="postCode" required>
+                                <span class="text-danger" th:if="${#fields.hasErrors('officeAddress.postCode')}" 
+                                      th:errors="*{officeAddress.postCode}">Postal code is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="street" class="form-label">
+                                    <i class="fas fa-road me-2"></i>Street
+                                </label>
+                                <input class="form-control" type="text" th:field="*{officeAddress.street}" 
+                                       placeholder="Enter street name" id="street" required>
+                                <span class="text-danger" th:if="${#fields.hasErrors('officeAddress.street')}" 
+                                      th:errors="*{officeAddress.street}">Street is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="streetNum" class="form-label">
+                                    <i class="fas fa-hashtag me-2"></i>Street Number
+                                </label>
+                                <input class="form-control" type="text" th:field="*{officeAddress.streetNum}"
+                                       placeholder="Enter street number" id="streetNum" required>
+                                <span class="text-danger" th:if="${#fields.hasErrors('officeAddress.streetNum')}" 
+                                      th:errors="*{officeAddress.streetNum}">Street number is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="telephone" class="form-label">
+                                    <i class="fas fa-phone me-2"></i>Telephone
+                                </label>
+                                <input class="form-control" type="tel" th:field="*{telephone}" 
+                                       placeholder="Enter telephone number" id="telephone" required>
+                                <span class="text-danger" th:if="${#fields.hasErrors('telephone')}" 
+                                      th:errors="*{telephone}">Telephone is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dateOfEstablishment" class="form-label">
+                                    <i class="fas fa-calendar-alt me-2"></i>Date of Establishment
+                                </label>
+                                <input class="form-control" type="date" th:field="*{dateOfEstablishment}"
+                                       id="dateOfEstablishment" required>
+                                <span class="text-danger" th:if="${#fields.hasErrors('dateOfEstablishment')}" 
+                                      th:errors="*{dateOfEstablishment}">Date of establishment is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions mt-4">
+                        <button type="submit" class="btn btn-primary me-3">
+                            <i class="fas fa-save me-2"></i>Update Office
+                        </button>
+                        <a href="/offices" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <footer th:replace="fragments :: footer"></footer>
 </body>

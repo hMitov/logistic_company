@@ -1,57 +1,151 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head"></head>
-<link href="multiselect.css" rel="stylesheet">
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Add supplier</h4>
-<div class="col-6">
-    <form action="#" th:action="@{/suppliers/create}" th:object="${supplier}" method="post">
-        <div class="form-group col-6">
-            <h2>Supplier</h2>
-            <input class="form-control mt-4" type="text" th:field="*{egn}" placeholder="Egn" id="egn">
-            <span class="text-danger" th:if="${#fields.hasErrors('egn')}" th:errors="*{egn}">Egn has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{firstName}" placeholder="First name"
-                   id="firstName">
-            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{middleName}" placeholder="Middle name"
-                   id="middleName">
-            <span class="text-danger" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}">Middle name has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{lastName}" placeholder="Last name"
-                   id="lastName">
-            <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{salary}" placeholder="Salary"
-                   id="salary">
-            <span class="text-danger" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">Salary has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{dateOfEmploy}" placeholder="Date of employ"
-                   id="dateOfEmploy">
-            <span class="text-danger" th:if="${#fields.hasErrors('dateOfEmploy')}" th:errors="*{dateOfEmploy}">Date of employee has error</span>
-
-            <div class="container">
-                <p>Select Driving license categories: </p>
-                <select id="drivingLicenseCategories" th:field="*{drivingLicenseCategories}" multiple="multiple">
-                    <option th:each="drivingLicenseCategory : ${drivingLicenseCategories}"
-                            th:text="${drivingLicenseCategory}"
-                            th:value="${drivingLicenseCategory}">
-                    </option>
-                </select>
-                <span class="text-danger" th:if="${#fields.hasErrors('drivingLicenseCategories')}" th:errors="*{drivingLicenseCategories}">Driving license categories has error</span>
+<div class="main-content">
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-truck me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+            <div>
+                <h1 class="text-gradient mb-0">Add New Supplier</h1>
+                <p class="text-muted mb-0">Register a new supplier driver for the logistics company</p>
             </div>
-            <p>Assign to vehicle with number: </p>
-            <select class="form-control" name="vehicleId">
-                <option th:each="vehicle : ${vehicles}"
-                        th:text="${vehicle.vehicleId}">
-                </option>
-            </select>
-            <span class="text-danger" th:if="${#fields.hasErrors('vehicleId')}" th:errors="*{vehicleId}">Vehicle id has error</span>
         </div>
-        <button type="submit" class="btn btn-primary">Save Supplier</button>
-    </form>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-container fade-in">
+                <form action="#" th:action="@{/suppliers/create}" th:object="${supplier}" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="egn" class="form-label">
+                                    <i class="fas fa-id-card me-2"></i>EGN
+                                </label>
+                                <input class="form-control" type="text" th:field="*{egn}" 
+                                       placeholder="Enter EGN" id="egn">
+                                <span class="text-danger" th:if="${#fields.hasErrors('egn')}" 
+                                      th:errors="*{egn}">EGN is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="salary" class="form-label">
+                                    <i class="fas fa-dollar-sign me-2"></i>Salary
+                                </label>
+                                <input class="form-control" type="number" th:field="*{salary}" 
+                                       placeholder="Enter salary amount" id="salary">
+                                <span class="text-danger" th:if="${#fields.hasErrors('salary')}" 
+                                      th:errors="*{salary}">Salary is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">
+                                    <i class="fas fa-user me-2"></i>First Name
+                                </label>
+                                <input class="form-control" type="text" th:field="*{firstName}" 
+                                       placeholder="Enter first name" id="firstName">
+                                <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" 
+                                      th:errors="*{firstName}">First name is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="middleName" class="form-label">
+                                    <i class="fas fa-user me-2"></i>Middle Name
+                                </label>
+                                <input class="form-control" type="text" th:field="*{middleName}" 
+                                       placeholder="Enter middle name" id="middleName">
+                                <span class="text-danger" th:if="${#fields.hasErrors('middleName')}" 
+                                      th:errors="*{middleName}">Middle name is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">
+                                    <i class="fas fa-user me-2"></i>Last Name
+                                </label>
+                                <input class="form-control" type="text" th:field="*{lastName}" 
+                                       placeholder="Enter last name" id="lastName">
+                                <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" 
+                                      th:errors="*{lastName}">Last name is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dateOfEmploy" class="form-label">
+                                    <i class="fas fa-calendar-alt me-2"></i>Date of Employment
+                                </label>
+                                <input class="form-control" type="date" th:field="*{dateOfEmploy}"
+                                       id="dateOfEmploy">
+                                <span class="text-danger" th:if="${#fields.hasErrors('dateOfEmploy')}" 
+                                      th:errors="*{dateOfEmploy}">Date of employment is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="vehicleId" class="form-label">
+                                    <i class="fas fa-truck me-2"></i>Assigned Vehicle
+                                </label>
+                                <select class="form-control" name="vehicleId" id="vehicleId">
+                                    <option value="">Select a vehicle...</option>
+                                    <option th:each="vehicle : ${vehicles}"
+                                            th:value="${vehicle.vehicleId}"
+                                            th:text="'Vehicle #' + ${vehicle.vehicleId}">
+                                    </option>
+                                </select>
+                                <span class="text-danger" th:if="${#fields.hasErrors('vehicleId')}" 
+                                      th:errors="*{vehicleId}">Vehicle assignment is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="drivingLicenseCategories" class="form-label">
+                                    <i class="fas fa-id-badge me-2"></i>Driving License Categories
+                                </label>
+                                <select class="form-control" id="drivingLicenseCategories" 
+                                        th:field="*{drivingLicenseCategories}" multiple="multiple" size="4">
+                                    <option th:each="drivingLicenseCategory : ${drivingLicenseCategories}"
+                                            th:text="${drivingLicenseCategory}"
+                                            th:value="${drivingLicenseCategory}">
+                                    </option>
+                                </select>
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Hold Ctrl (or Cmd on Mac) to select multiple categories
+                                </small>
+                                <span class="text-danger" th:if="${#fields.hasErrors('drivingLicenseCategories')}" 
+                                      th:errors="*{drivingLicenseCategories}">Driving license categories are required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions mt-4">
+                        <button type="submit" class="btn btn-primary me-3">
+                            <i class="fas fa-save me-2"></i>Save Supplier
+                        </button>
+                        <a href="/suppliers" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <footer th:replace="fragments :: footer"></footer>
 </body>

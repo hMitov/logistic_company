@@ -3,68 +3,161 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Show all Shipments</h4>
-<div class="col-12">
-    <h3 th:unless="${shipments} and ${shipments.size()}">There are no shipments!</h3>
-    <div style="max-height: 400px; overflow-y: auto;">
-        <table th:if="${shipments.size()>0}" class="table table-hover"
-               style="table-layout: auto; width: 100%; white-space: nowrap;">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Shipment id</th>
-                <th>Sender's first name</th>
-                <th>Sender's last name</th>
-                <th>Sender's organization name</th>
-                <th>Sender's tel</th>
-                <th>Recipient's first name</th>
-                <th>Recipient's last name</th>
-                <th>Recipient's organization name</th>
-                <th>Recipient's tel</th>
-                <th>Departure point</th>
-                <th>Arrival point</th>
-                <th>Address of departure</th>
-                <th>Address of arrival</th>
-                <th>Weight</th>
-                <th>Delivery price</th>
-                <th>Registrant employee</th>
-                <th>Processed by employee</th>
-                <th>State</th>
-                <th>Delivered time</th>
-                <th sec:authorize="hasAnyAuthority('ADMIN', 'OFFICE_EMPLOYEE')">Delete</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="shipment : ${shipments}">
-                <td th:text="${shipment.id}"></td>
-                <td th:text="${shipment.externalId}"></td>
-                <td th:text="${shipment.getSender().firstName}"></td>
-                <td th:text="${shipment.getSender().lastName}"></td>
-                <td th:text="${shipment.getSender().organizationName}"></td>
-                <td th:text="${shipment.getSender().telephone}"></td>
-                <td th:text="${shipment.getRecipient().firstName}"></td>
-                <td th:text="${shipment.getRecipient().lastName}"></td>
-                <td th:text="${shipment.getRecipient().organizationName}"></td>
-                <td th:text="${shipment.getRecipient().telephone}"></td>
-                <td th:text="${shipment.departurePoint}"></td>
-                <td th:text="${shipment.arrivalPoint}"></td>
-                <td th:text="${shipment.getDepartureAddress().city + ', ' + shipment.getDepartureAddress().street + ', N' + shipment.getDepartureAddress().streetNum}"></td>
-                <td th:text="${shipment.getArrivalAddress().city + ', ' + shipment.getArrivalAddress().street + ', N' + shipment.getArrivalAddress().streetNum}"></td>
-                <td th:text="${shipment.weight}"></td>
-                <td th:text="${shipment.price}"></td>
-                <td th:text="${shipment.registrantEmployeeId}"></td>
-                <td th:text="${shipment.processedByEmployeeId}"></td>
-                <td th:text="${shipment.shipmentState}"></td>
-                <td th:text="${shipment.deliveredDateTime}"></td>
-                <td sec:authorize="hasAnyAuthority('ADMIN', 'OFFICE_EMPLOYEE')">
-                    <a class="btn btn-danger"
-                       th:href="@{'/shipments/'+${shipment.id} + '/remove'}">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <!-- Dynamic Icon and Header based on view context -->
+                <i th:if="${viewContext == 'recipient'}" class="fas fa-inbox me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+                <i th:if="${viewContext == 'sender'}" class="fas fa-paper-plane me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+                <i th:if="${viewContext == 'employee'}" class="fas fa-user-tie me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+                <i th:if="${viewContext == 'in-transport'}" class="fas fa-shipping-fast me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+                <i th:if="${viewContext == 'all' or viewContext == null}" class="fas fa-box me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+                <div>
+                    <h1 class="text-gradient mb-0" th:if="${viewContext == 'recipient'}">Shipments by Recipient</h1>
+                    <h1 class="text-gradient mb-0" th:if="${viewContext == 'sender'}">Shipments by Sender</h1>
+                    <h1 class="text-gradient mb-0" th:if="${viewContext == 'employee'}">Shipments by Employee</h1>
+                    <h1 class="text-gradient mb-0" th:if="${viewContext == 'in-transport'}">Shipments in Transport</h1>
+                    <h1 class="text-gradient mb-0" th:if="${viewContext == 'all' or viewContext == null}">All Shipments</h1>
+                    
+                    <p class="text-muted mb-0" th:if="${viewContext == 'recipient'}">View shipments received by a specific recipient</p>
+                    <p class="text-muted mb-0" th:if="${viewContext == 'sender'}">View shipments sent by a specific sender</p>
+                    <p class="text-muted mb-0" th:if="${viewContext == 'employee'}">View shipments registered by a specific employee</p>
+                    <p class="text-muted mb-0" th:if="${viewContext == 'in-transport'}">View shipments currently in transport</p>
+                    <p class="text-muted mb-0" th:if="${viewContext == 'all' or viewContext == null}">View and manage all registered shipments</p>
+                </div>
+            </div>
+            <div sec:authorize="hasAnyAuthority('ADMIN', 'CUSTOMER', 'OFFICE_EMPLOYEE')">
+                <a href="/shipments/create-shipment" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Create Shipment
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <!-- Empty State -->
+            <div th:unless="${shipments} and ${shipments.size()}" class="empty-state">
+                <i class="fas fa-box"></i>
+                <h3>No Shipments Found</h3>
+                <p>There are currently no shipments registered in the system.</p>
+                <div sec:authorize="hasAnyAuthority('ADMIN', 'CUSTOMER', 'OFFICE_EMPLOYEE')">
+                    <a href="/shipments/create-shipment" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Create First Shipment
+                    </a>
+                </div>
+            </div>
+
+            <!-- Shipments Table -->
+            <div th:if="${shipments.size()>0}" class="table-container fade-in">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                                <th><i class="fas fa-barcode me-2"></i>Shipment ID</th>
+                                <th><i class="fas fa-user me-2"></i>Sender</th>
+                                <th><i class="fas fa-user-friends me-2"></i>Recipient</th>
+                                <th><i class="fas fa-route me-2"></i>Route</th>
+                                <th><i class="fas fa-weight me-2"></i>Weight</th>
+                                <th><i class="fas fa-dollar-sign me-2"></i>Price</th>
+                                <th><i class="fas fa-info-circle me-2"></i>Status</th>
+                                <th sec:authorize="hasAnyAuthority('ADMIN', 'OFFICE_EMPLOYEE')" class="text-center">
+                                    <i class="fas fa-cogs me-2"></i>Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="shipment : ${shipments}">
+                                <td>
+                                    <span class="badge badge-info" th:text="${shipment.id}"></span>
+                                </td>
+                                <td>
+                                    <code th:text="${shipment.externalId}"></code>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <div class="d-flex align-items-center">
+                                            <i th:if="${shipment.getSender().organizationName == null or shipment.getSender().organizationName == ''}" class="fas fa-user me-2 text-primary"></i>
+                                            <strong th:text="${shipment.getSender().firstName + ' ' + shipment.getSender().lastName}"></strong>
+                                        </div>
+                                        <div class="d-flex align-items-center" th:if="${shipment.getSender().organizationName != null and shipment.getSender().organizationName != ''}">
+                                            <i class="fas fa-building me-2 text-muted"></i>
+                                            <strong th:text="${shipment.getSender().organizationName}"></strong>
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="fas fa-phone me-1"></i>
+                                            <span th:text="${shipment.getSender().telephone}"></span>
+                                        </small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <div class="d-flex align-items-center">
+                                            <i th:if="${shipment.getRecipient().organizationName == null or shipment.getRecipient().organizationName == ''}" class="fas fa-user me-2 text-primary"></i>
+                                            <strong th:text="${shipment.getRecipient().firstName + ' ' + shipment.getRecipient().lastName}"></strong>
+                                        </div>
+                                        <div class="d-flex align-items-center" th:if="${shipment.getRecipient().organizationName != null and shipment.getRecipient().organizationName != ''}">
+                                            <i class="fas fa-building me-2 text-muted"></i>
+                                            <strong th:text="${shipment.getRecipient().organizationName}"></strong>
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="fas fa-phone me-1"></i>
+                                            <span th:text="${shipment.getRecipient().telephone}"></span>
+                                        </small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <div class="mb-1">
+                                            <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                            <strong th:text="${shipment.departurePoint}"></strong>
+                                        </div>
+                                        <small class="text-muted" th:text="${shipment.getDepartureAddress().city + ', ul. ' + shipment.getDepartureAddress().street + ', №' + shipment.getDepartureAddress().streetNum}"></small>
+                                        <div class="mt-1">
+                                            <i class="fas fa-map-marker-alt text-success me-1"></i>
+                                            <strong th:text="${shipment.arrivalPoint}"></strong>
+                                        </div>
+                                        <small class="text-muted" th:text="${shipment.getArrivalAddress().city + ', ul. ' + shipment.getArrivalAddress().street + ', №' + shipment.getArrivalAddress().streetNum}"></small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-warning" th:text="${shipment.weight != null and shipment.weight != 'null' ? shipment.weight + ' kg' : '-'}"></span>
+                                </td>
+                                <td>
+                                    <strong class="text-success" th:text="${shipment.price != null and shipment.price != 'null' ? '$' + shipment.price : '-'}"></strong>
+                                </td>
+                                <td>
+                                    <span class="badge" 
+                                          th:classappend="${shipment.shipmentState == 'DELIVERED'} ? 'badge-success' : 
+                                                         (${shipment.shipmentState == 'IN_TRANSPORT'} ? 'badge-info' : 
+                                                         (${shipment.shipmentState == 'READY_FOR_TRANSPORT'} ? 'badge-warning' : 'badge-secondary'))"
+                                          th:text="${shipment.shipmentState}"></span>
+                                    <div class="mt-1">
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>
+                                            <span th:text="${shipment.deliveredDateTime} ?: '-'"></span>
+                                        </small>
+                                    </div>
+                                </td>
+                                <td sec:authorize="hasAnyAuthority('ADMIN', 'OFFICE_EMPLOYEE')" class="text-center">
+                                    <a class="btn btn-danger btn-sm" 
+                                       th:href="@{'/shipments/'+${shipment.id} + '/remove'}"
+                                       onclick="return confirm('Are you sure you want to delete this shipment?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 <footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

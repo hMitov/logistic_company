@@ -3,51 +3,145 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Add an office employee</h4>
-<div class="col-6">
-    <form action="#" th:action="@{/office-employees/create}" th:object="${officeEmployee}" method="post">
-        <div class="form-group col-6">
-            <h2>Office employee</h2>
-            <input class="form-control mt-4" type="text" th:field="*{egn}" placeholder="Egn" id="egn">
-            <span class="text-danger" th:if="${#fields.hasErrors('egn')}" th:errors="*{egn}">Egn has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{firstName}" placeholder="First name"
-                   id="firstName">
-            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{middleName}" placeholder="Middle name"
-                   id="middleName">
-            <span class="text-danger" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}">Middle name has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{lastName}" placeholder="Last name"
-                   id="lastName">
-            <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{salary}" placeholder="Salary"
-                   id="salary">
-            <span class="text-danger" th:if="${#fields.hasErrors('salary')}"
-                  th:errors="*{salary}">Salary has error</span>
-
-            <input class="form-control mt-4" type="text" th:field="*{dateOfEmploy}" placeholder="Date of employ"
-                   id="dateOfEmploy">
-            <span class="text-danger" th:if="${#fields.hasErrors('dateOfEmploy')}" th:errors="*{dateOfEmploy}">
-                <span th:each="error : ${#fields.errors('dateOfEmploy')}" th:text="${error}"></span>
-            </span>
-            <br>
-
-            <label class="mt-4">Offices:</label><br>
-            <select class="form-control" name="officeAddress">
-                <option th:each="office : ${offices}"
-                        th:text="${office.getOfficeAddress().city + ', ' +
-                                   office.getOfficeAddress().street + ', ' +
-                                   office.getOfficeAddress().streetNum}">
-                </option>
-            </select>
-            <span class="text-danger" th:if="${#fields.hasErrors('officeAddress')}" th:errors="*{officeAddress}">Office address has error</span>
-            <br>
+<div class="main-content">
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-user-plus me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+            <div>
+                <h1 class="text-gradient mb-0">Add New Office Employee</h1>
+                <p class="text-muted mb-0">Create a new office employee record for the logistics company</p>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Save Office</button>
-    </form>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-container fade-in">
+                <form action="#" th:action="@{/office-employees/create}" th:object="${officeEmployee}" method="post">
+                    <!-- Personal Information Section -->
+                    <div class="form-section mb-4">
+                        <h5 class="section-title">
+                            <i class="fas fa-user me-2"></i>Personal Information
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="egn" class="form-label">
+                                        <i class="fas fa-id-card me-2"></i>EGN (Personal ID)
+                                    </label>
+                                    <input class="form-control" type="text" th:field="*{egn}" 
+                                           placeholder="Enter EGN" id="egn" required>
+                                    <span class="text-danger" th:if="${#fields.hasErrors('egn')}" 
+                                          th:errors="*{egn}">EGN is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="salary" class="form-label">
+                                        <i class="fas fa-dollar-sign me-2"></i>Salary
+                                    </label>
+                                    <input class="form-control" type="number" th:field="*{salary}" 
+                                           placeholder="Enter salary amount" id="salary" step="0.01" required>
+                                    <span class="text-danger" th:if="${#fields.hasErrors('salary')}" 
+                                          th:errors="*{salary}">Salary is required</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Name Information Section -->
+                    <div class="form-section mb-4">
+                        <h5 class="section-title">
+                            <i class="fas fa-signature me-2"></i>Name Information
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label">
+                                        <i class="fas fa-user me-2"></i>First Name
+                                    </label>
+                                    <input class="form-control" type="text" th:field="*{firstName}" 
+                                           placeholder="Enter first name" id="firstName" required>
+                                    <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" 
+                                          th:errors="*{firstName}">First name is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="middleName" class="form-label">
+                                        <i class="fas fa-user me-2"></i>Middle Name
+                                    </label>
+                                    <input class="form-control" type="text" th:field="*{middleName}" 
+                                           placeholder="Enter middle name" id="middleName">
+                                    <span class="text-danger" th:if="${#fields.hasErrors('middleName')}" 
+                                          th:errors="*{middleName}">Middle name error</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label">
+                                        <i class="fas fa-user me-2"></i>Last Name
+                                    </label>
+                                    <input class="form-control" type="text" th:field="*{lastName}" 
+                                           placeholder="Enter last name" id="lastName" required>
+                                    <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" 
+                                          th:errors="*{lastName}">Last name is required</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employment Information Section -->
+                    <div class="form-section mb-4">
+                        <h5 class="section-title">
+                            <i class="fas fa-briefcase me-2"></i>Employment Information
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="dateOfEmploy" class="form-label">
+                                        <i class="fas fa-calendar-alt me-2"></i>Date of Employment
+                                    </label>
+                                    <input class="form-control" type="date" th:field="*{dateOfEmploy}" 
+                                           id="dateOfEmploy" required>
+                                    <span class="text-danger" th:if="${#fields.hasErrors('dateOfEmploy')}" 
+                                          th:errors="*{dateOfEmploy}">Date of employment is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="officeAddress" class="form-label">
+                                        <i class="fas fa-building me-2"></i>Assigned Office
+                                    </label>
+                                    <select class="form-control" name="officeAddress" id="officeAddress" required>
+                                        <option value="">Select an office...</option>
+                                        <option th:each="office : ${offices}"
+                                                th:value="${office.getOfficeAddress().city + ', ' + office.getOfficeAddress().street + ', ' + office.getOfficeAddress().streetNum}"
+                                                th:text="${office.getOfficeAddress().city + ', ul. ' + office.getOfficeAddress().street + ', ' + office.getOfficeAddress().streetNum}">
+                                        </option>
+                                    </select>
+                                    <span class="text-danger" th:if="${#fields.hasErrors('officeAddress')}" 
+                                          th:errors="*{officeAddress}">Office selection is required</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions mt-4">
+                        <button type="submit" class="btn btn-primary me-3">
+                            <i class="fas fa-save me-2"></i>Save Employee
+                        </button>
+                        <a href="/office-employees" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <footer th:replace="fragments :: footer"></footer>
 </body>

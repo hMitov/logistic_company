@@ -40,6 +40,7 @@ public class ReferenceController {
         List<ShipmentViewResponse> shipments = shipmentService.getAllShipments().stream()
                 .map(webAdapter::convertToShipmentView).collect(Collectors.toList());
         model.addAttribute("shipments", shipments);
+        model.addAttribute("viewContext", "all");
 
         return "/shipments/shipments";
     }
@@ -62,6 +63,7 @@ public class ReferenceController {
         List<ShipmentViewResponse> shipments = shipmentService.getAllShipmentsByRegistrantEmployeeId(longValue)
                 .stream().map(webAdapter::convertToShipmentView).collect(Collectors.toList());
         model.addAttribute("shipments", shipments);
+        model.addAttribute("viewContext", "employee");
 
         return "/shipments/shipments";
     }
@@ -84,6 +86,7 @@ public class ReferenceController {
         List<ShipmentViewResponse> shipments = shipmentService.getAllShipmentsSentBySender(shipmentsBySenderView.getTelephone())
                 .stream().map(webAdapter::convertToShipmentView).collect(Collectors.toList());
         model.addAttribute("shipments", shipments);
+        model.addAttribute("viewContext", "sender");
 
         return "/shipments/shipments";
     }
@@ -93,6 +96,7 @@ public class ReferenceController {
         List<ShipmentViewResponse> shipments = shipmentService.getAllShipmentsInTransportToRecipient()
                 .stream().map(webAdapter::convertToShipmentView).collect(Collectors.toList());
         model.addAttribute("shipments", shipments);
+        model.addAttribute("viewContext", "in-transport");
 
         return "/shipments/shipments";
     }
@@ -115,6 +119,7 @@ public class ReferenceController {
         List<ShipmentViewResponse> shipments = shipmentService.getAllShipmentsReceivedByRecipient(shipmentsByRecipientView.getTelephone())
                 .stream().map(webAdapter::convertToShipmentView).collect(Collectors.toList());
         model.addAttribute("shipments", shipments);
+        model.addAttribute("viewContext", "recipient");
 
         return "/shipments/shipments";
     }

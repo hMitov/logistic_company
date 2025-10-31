@@ -2,46 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head"></head>
 <link href="multiselect.css" rel="stylesheet">
-<header>
-    <div class="row m-0 p-3 bg-info text-white">
-        <h1 class="col-3">Logistic company Speeed</h1>
-        <img th:src="@{/img/truck-large.svg}" style="max-height: 100px; max-width: 100px" alt="" >
-    </div>
-</header>
 <body>
-<h1 th:text="'Hello and  ' + ${welcome}"></h1>
-<div class="container col-6">
-    <form name="login" th:action="@{/user/register}" th:object="${user}" method="post">
-        <fieldset>
-            <div th:if="${param.error}" class="alert alert-danger">
-                Invalid username and password.
-            </div>
+    <div th:replace="fragments :: header"></div>
+    
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user-plus me-3"></i>
+                            <h4 class="mb-0">User Registration</h4>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Invalid username and password.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
 
-            <div th:if="${param.logout}" class="alert alert-success">
-                You have been logged out.
+                        <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            You have been logged out.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                        <form name="login" th:action="@{/user/register}" th:object="${user}" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="username" class="form-label">
+                                            <i class="fas fa-user me-2"></i>Username
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{username}" id="username" name="username" placeholder="Enter username">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('username')}" 
+                                              th:errors="*{username}">Username is required</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="password" class="form-label">
+                                            <i class="fas fa-lock me-2"></i>Password
+                                        </label>
+                                        <input class="form-control" type="password" th:field="*{password}" id="password" name="password" placeholder="Enter password">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('password')}" 
+                                              th:errors="*{password}">Password is required</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="roles" class="form-label">
+                                    <i class="fas fa-user-tag me-2"></i>Assign Roles to User
+                                </label>
+                                <select class="form-control" th:field="*{roles}" multiple="multiple" id="roles">
+                                    <option th:each="role : ${roles}"
+                                            th:text="${role}"
+                                            th:value="${role}">
+                                    </option>
+                                </select>
+                                <span class="text-danger" th:if="${#fields.hasErrors('roles')}" 
+                                      th:errors="*{roles}">Please select at least one role</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a th:href="@{/login}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Login
+                                </a>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-user-plus me-2"></i>Register User
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <h4>User details</h4>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text" th:field="*{username} "id="username" name="username" placeholder="Username">
-            </div>
-            <br>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text"  th:field="*{password}" id="password" name="password" placeholder="Password">
-            </div>
-            <p>Assign to roles to user: </p>
-            <select class="form-control" th:field="*{roles}" multiple="multiple">
-                <option th:each="role : ${roles}"
-                        th:text="${role}"
-                        th:value="${role}">
-                </option>
-            </select>
-            <br>
-            <div class="form-actions" style="margin-top: 12px;">
-                <button type="submit" class="btn btn-success">Register</button>
-            </div>
-        </fieldset>
-    </form>
-</div>
-<footer th:replace="fragments :: footer"></footer>
+        </div>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
 </body>
 </html>

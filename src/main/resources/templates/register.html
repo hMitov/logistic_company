@@ -2,70 +2,183 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head">
 </head>
-<header>
-    <div class="row m-0 p-3 bg-info text-white">
-        <h1 class="col-3">Logistic company Speeed</h1>
-        <img th:src="@{/img/truck-large.svg}" style="max-height: 100px; max-width: 100px" alt="" >
-    </div>
-</header>
 <body>
-<h1 th:text="'Hello and  ' + ${welcome}"></h1>
-<div class="container col-6">
-    <form name="login" th:action="@{/register}" th:object="${account}" method="post">
-        <fieldset>
-            <div th:if="${param.error}" class="alert alert-danger">
-                Invalid username and password.
-            </div>
+<header th:replace="fragments :: header"></header>
+<div class="main-content" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); flex: 1; margin: 0; padding: 0 !important; padding-bottom: 0 !important;">
+    <div class="container-fluid" style="padding: 2rem 0; margin: 0;">
+        <div class="row w-100 justify-content-center align-items-center" style="min-height: 60vh;">
+            <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 fade-in">
+                <div class="card-header text-center py-4">
+                    <img th:src="@{/img/truck-large.svg}" class="mb-3" style="max-height: 60px; max-width: 60px; filter: brightness(0) invert(1);" alt="Truck Logo">
+                    <h2 class="text-white mb-0">Create Account</h2>
+                    <p class="text-white-50 mb-0" th:text="'Hello and ' + ${welcome}"></p>
+                </div>
+                <div class="card-body p-4">
+                    <form name="register" th:action="@{/register}" th:object="${account}" method="post">
+                        <!-- Error Messages -->
+                        <div th:if="${param.error}" class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Registration failed. Please check your information and try again.
+                        </div>
 
-            <div th:if="${param.logout}" class="alert alert-success">
-                You have been logged out.
+                        <div th:if="${param.logout}" class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            You have been logged out successfully.
+                        </div>
+
+                        <!-- Personal Information Section -->
+                        <div class="form-section mb-4">
+                            <h5 class="section-title">
+                                <i class="fas fa-user me-2"></i>Personal Information
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="firstName" class="form-label">
+                                            <i class="fas fa-user me-2"></i>First Name
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{firstName}" 
+                                               id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                        <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" 
+                                              th:errors="*{firstName}">First name is required</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="lastName" class="form-label">
+                                            <i class="fas fa-user me-2"></i>Last Name
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{lastName}" 
+                                               id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                        <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" 
+                                              th:errors="*{lastName}">Last name is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group mb-3">
+                                        <label for="telephone" class="form-label">
+                                            <i class="fas fa-phone me-2"></i>Telephone
+                                        </label>
+                                        <input class="form-control" type="tel" th:field="*{telephone}" 
+                                               id="telephone" name="telephone" placeholder="Enter your phone number" required>
+                                        <span class="text-danger" th:if="${#fields.hasErrors('telephone')}" 
+                                              th:errors="*{telephone}">Telephone is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Section -->
+                        <div class="form-section mb-4">
+                            <h5 class="section-title">
+                                <i class="fas fa-map-marker-alt me-2"></i>Address Information
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="city" class="form-label">
+                                            <i class="fas fa-city me-2"></i>City
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{city}" 
+                                               id="city" name="city" placeholder="Enter your city" required>
+                                        <span class="text-danger" th:if="${#fields.hasErrors('city')}" 
+                                              th:errors="*{city}">City is required</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="postCode" class="form-label">
+                                            <i class="fas fa-mail-bulk me-2"></i>Postal Code
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{postCode}" 
+                                               id="postCode" name="postCode" placeholder="Enter postal code" required>
+                                        <span class="text-danger" th:if="${#fields.hasErrors('postCode')}" 
+                                              th:errors="*{postCode}">Postal code is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group mb-3">
+                                        <label for="street" class="form-label">
+                                            <i class="fas fa-road me-2"></i>Street
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{street}" 
+                                               id="street" name="street" placeholder="Enter street name" required>
+                                        <span class="text-danger" th:if="${#fields.hasErrors('street')}" 
+                                              th:errors="*{street}">Street is required</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label for="streetNum" class="form-label">
+                                            <i class="fas fa-hashtag me-2"></i>Street Number
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{streetNum}" 
+                                               id="streetNum" name="streetNum" placeholder="Enter street number" required>
+                                        <span class="text-danger" th:if="${#fields.hasErrors('streetNum')}" 
+                                              th:errors="*{streetNum}">Street number is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Credentials Section -->
+                        <div class="form-section mb-4">
+                            <h5 class="section-title">
+                                <i class="fas fa-lock me-2"></i>Account Credentials
+                            </h5>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group mb-3">
+                                        <label for="username" class="form-label">
+                                            <i class="fas fa-user-circle me-2"></i>Username
+                                        </label>
+                                        <input class="form-control" type="text" th:field="*{user.username}" 
+                                               id="username" name="username" placeholder="Choose a username" required>
+                                        <span class="text-danger" th:if="${#fields.hasErrors('user.username')}" 
+                                              th:errors="*{user.username}">Username is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group mb-3">
+                                        <label for="password" class="form-label">
+                                            <i class="fas fa-key me-2"></i>Password
+                                        </label>
+                                        <input class="form-control" type="password" th:field="*{user.password}" 
+                                               id="password" name="password" placeholder="Create a secure password" required>
+                                        <span class="text-danger" th:if="${#fields.hasErrors('user.password')}" 
+                                              th:errors="*{user.password}">Password is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Create Account
+                            </button>
+                        </div>
+
+                        <!-- Login Link -->
+                        <div class="text-center">
+                            <p class="text-muted mb-0">Already have an account?</p>
+                            <a class="btn btn-outline-secondary mt-2" th:href="@{'/login'}">
+                                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <h4>Account details</h4>
-            <!-- Login Controls -->
-            <div class="form-group">
-                <input class="form-control mt-4" type="text" th:field="*{firstName}" id="firstName" name="firstName" placeholder="First name">
             </div>
-            <br>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text" th:field="*{lastName}" id="lastName" name="lastName" placeholder="Last name">
-            </div>
-            <br>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text" th:field="*{telephone}" id="telephone" name="telephone" placeholder="Telephone">
-            </div>
-            <br>
-            <h4>Address</h4>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text" th:field="*{city}" id="city" name="city" placeholder="City">
-            </div>
-            <br>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text" th:field="*{postCode}" id="postCode" name="postCode" placeholder="Post code">
-            </div>
-            <br>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text" th:field="*{street}" id="street" name="street" placeholder="Street">
-            </div>
-            <br>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text" th:field="*{streetNum}" id="streetNumber" name="streetNumber" placeholder="Street number">
-            </div>
-            <br>
-            <br>
-            <br>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text" th:field="*{user.username} "id="username" name="username" placeholder="Username">
-            </div>
-            <br>
-            <div class="form-group">
-                <input class="form-control mt-4" type="text"  th:field="*{user.password}" id="password" name="password" placeholder="Password">
-            </div>
-            <br>
-            <div class="form-actions" style="margin-top: 12px;">
-                <button type="submit" class="btn btn-success">Sign up</button>
-            </div>
-        </fieldset>
-    </form>
+        </div>
+    </div>
 </div>
 <footer th:replace="fragments :: footer"></footer>
 </body>

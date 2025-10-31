@@ -1,69 +1,353 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head"></head>
+<head th:replace="fragments :: head">
+    <style>
+        /* Enhanced styling for shipment change status page */
+        .shipment-details-table {
+            font-size: 0.9rem;
+        }
+        
+        .shipment-details-table th {
+            font-size: 0.8rem;
+            padding: 1.2rem 0.8rem;
+            white-space: nowrap;
+        }
+        
+        .shipment-details-table td {
+            padding: 1.2rem 0.8rem;
+            vertical-align: middle;
+        }
+        
+        .shipment-id-code {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            word-break: break-all;
+            font-size: 0.8rem;
+        }
+        
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .employee-info {
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+        
+        .route-info {
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        .route-info .departure, .route-info .arrival {
+            margin-bottom: 4px;
+        }
+        
+        .route-info .address {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-left: 16px;
+        }
+        
+        /* Table responsive container */
+        .table-responsive {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 12px;
+            width: 100%;
+            display: block;
+            white-space: nowrap;
+        }
+        
+        .table-responsive::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .table-responsive::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+        
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+        
+        /* Ensure table maintains minimum width */
+        .shipment-details-table {
+            min-width: 1200px;
+            width: 100%;
+            margin-bottom: 0;
+        }
+        
+        /* Override Bootstrap container constraints */
+        .table-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+        
+        /* Responsive improvements */
+        @media (max-width: 1200px) {
+            .shipment-details-table th,
+            .shipment-details-table td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .shipment-details-table {
+                min-width: 1000px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .shipment-details-table {
+                font-size: 0.8rem;
+                min-width: 900px;
+            }
+            
+            .shipment-details-table th {
+                font-size: 0.75rem;
+                padding: 0.6rem 0.4rem;
+            }
+            
+            .shipment-details-table td {
+                padding: 0.6rem 0.4rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 1.8rem !important;
+            }
+            
+            .page-header p {
+                font-size: 1rem !important;
+            }
+            
+            .form-container {
+                padding: 1.5rem !important;
+            }
+            
+            .shipment-details-table {
+                min-width: 800px;
+            }
+            
+            .shipment-details-table th,
+            .shipment-details-table td {
+                padding: 0.5rem 0.3rem;
+                font-size: 0.75rem;
+            }
+            
+            .status-badge {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-header {
+                padding: 1.5rem !important;
+            }
+            
+            .page-header h1 {
+                font-size: 1.5rem !important;
+            }
+            
+            .form-container {
+                padding: 1rem !important;
+            }
+            
+            .shipment-details-table {
+                min-width: 700px;
+            }
+            
+            .shipment-details-table th,
+            .shipment-details-table td {
+                padding: 0.4rem 0.2rem;
+                font-size: 0.7rem;
+            }
+            
+            .shipment-id-code {
+                font-size: 0.7rem;
+                padding: 4px 6px;
+            }
+        }
+    </style>
+</head>
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Change shipment status</h4>
-<div class="col-12">
-    <div style="max-height: 400px; overflow-y: auto;">
-        <table class="table table-hover" style="table-layout: auto; width: 100%; white-space: nowrap;">
-            <th>Id</th>
-            <th>Shipment id</th>
-            <th>Sender's first name</th>
-            <th>Sender's last name</th>
-            <th>Sender's organization name</th>
-            <th>Sender's tel</th>
-            <th>Recipient's first name</th>
-            <th>Recipient's last name</th>
-            <th>Recipient's organization name</th>
-            <th>Recipient's tel</th>
-            <th>Departure point</th>
-            <th>Arrival point</th>
-            <th>Address of departure</th>
-            <th>Address of arrival</th>
-            <th>Weight</th>
-            <th>Registrant employee</th>
-            <th>Processed by employee</th>
-            <th>State</th>
-            <th>Delivered time</th>
-            <tr>
-                <td th:text="${shipment.id}"></td>
-                <td th:text="${shipment.externalId}"></td>
-                <td th:text="${shipment.getSender().firstName}"></td>
-                <td th:text="${shipment.getSender().lastName}"></td>
-                <td th:text="${shipment.getSender().organizationName}"></td>
-                <td th:text="${shipment.getSender().telephone}"></td>
-                <td th:text="${shipment.getRecipient().firstName}"></td>
-                <td th:text="${shipment.getRecipient().lastName}"></td>
-                <td th:text="${shipment.getRecipient().organizationName}"></td>
-                <td th:text="${shipment.getRecipient().telephone}"></td>
-                <td th:text="${shipment.departurePoint}"></td>
-                <td th:text="${shipment.arrivalPoint}"></td>
-                <td th:text="${shipment.getDepartureAddress().city + ', '
-                         + shipment.getDepartureAddress().street + ', N'
-                         + shipment.getDepartureAddress().streetNum}"></td>
-                <td th:text="${shipment.getArrivalAddress().city + ', '
-                         + shipment.getArrivalAddress().street + ', N'
-                         + shipment.getArrivalAddress().streetNum}"></td>
-                <td th:text="${shipment.weight}"></td>
-                <td th:text="${shipment.registrantEmployeeId}"></td>
-                <td th:text="${shipment.processedByEmployeeId}"></td>
-                <td th:text="${shipment.shipmentState}"></td>
-                <td th:text="${shipment.deliveredDateTime}"></td>
-            </tr>
-        </table>
+
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-edit me-3" style="font-size: 2.5rem; color: var(--secondary-color);"></i>
+            <div>
+                <h1 class="text-gradient mb-0" style="font-size: 2.2rem;">Change Shipment Status</h1>
+                <p class="text-muted mb-0" style="font-size: 1.1rem;">Update the status of a shipment</p>
+            </div>
+        </div>
     </div>
 
-    <form action="#" th:action="@{/shipments/change-status/{id}(id=${id})}" th:object="${changeShipmentStatus}" method="post">
-        <select class="form-control" name="shipmentStatus">
-            <option th:each="shipmentState : ${shipmentStates}"
-                    th:text="${shipmentState.getShipmentState()}">
-            </option>
-        </select>
-        <span class="text-danger" th:if="${#fields.hasErrors('shipmentStatus')}" th:errors="*{shipmentStatus}">Shipment status has error</span>
-        <button type="submit" class="btn btn-primary">Enter the new status</button>
-    </form>
+    <div class="row">
+        <div class="col-12">
+            <!-- Shipment Details Table -->
+            <div class="table-container fade-in mb-4" style="overflow-x: auto;">
+                <h3 class="section-title mb-4" style="font-size: 1.3rem;">
+                    <i class="fas fa-info-circle me-2"></i>Shipment Details
+                </h3>
+                <div class="table-responsive" style="overflow-x: auto; width: 100%;">
+                    <table class="table table-hover shipment-details-table" style="min-width: 1200px; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="width: 6%; min-width: 60px;"><i class="fas fa-hashtag me-2"></i>ID</th>
+                                <th style="width: 18%; min-width: 200px;"><i class="fas fa-barcode me-2"></i>Shipment ID</th>
+                                <th style="width: 15%; min-width: 150px;"><i class="fas fa-user me-2"></i>Sender</th>
+                                <th style="width: 15%; min-width: 150px;"><i class="fas fa-user-friends me-2"></i>Recipient</th>
+                                <th style="width: 20%; min-width: 200px;"><i class="fas fa-route me-2"></i>Route</th>
+                                <th style="width: 8%; min-width: 80px;"><i class="fas fa-weight me-2"></i>Weight</th>
+                                <th style="width: 10%; min-width: 120px;"><i class="fas fa-user-tie me-2"></i>Employees</th>
+                                <th style="width: 12%; min-width: 140px;"><i class="fas fa-info-circle me-2"></i>Status</th>
+                                <th style="width: 10%; min-width: 100px;"><i class="fas fa-clock me-2"></i>Delivered</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="badge badge-info" th:text="${shipment.id}" style="font-size: 0.9rem; padding: 8px 12px;"></span>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <code class="shipment-id-code" th:text="${shipment.externalId}"></code>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <div class="d-flex flex-column" style="gap: 4px;">
+                                        <div class="d-flex align-items-center">
+                                            <i th:if="${shipment.getSender().organizationName == null or shipment.getSender().organizationName == ''}" class="fas fa-user me-2 text-primary" style="font-size: 0.9rem;"></i>
+                                            <strong th:text="${shipment.getSender().firstName + ' ' + shipment.getSender().lastName}" style="font-size: 0.95rem; line-height: 1.2;"></strong>
+                                        </div>
+                                        <div class="d-flex align-items-center" th:if="${shipment.getSender().organizationName != null and shipment.getSender().organizationName != ''}">
+                                            <i class="fas fa-building me-2 text-muted" style="font-size: 0.8rem;"></i>
+                                            <strong th:text="${shipment.getSender().organizationName}" style="font-size: 0.8rem;"></strong>
+                                        </div>
+                                        <small class="text-muted" style="font-size: 0.75rem;">
+                                            <i class="fas fa-phone me-1"></i>
+                                            <span th:text="${shipment.getSender().telephone}"></span>
+                                        </small>
+                                    </div>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <div class="d-flex flex-column" style="gap: 4px;">
+                                        <div class="d-flex align-items-center">
+                                            <i th:if="${shipment.getRecipient().organizationName == null or shipment.getRecipient().organizationName == ''}" class="fas fa-user me-2 text-primary" style="font-size: 0.9rem;"></i>
+                                            <strong th:text="${shipment.getRecipient().firstName + ' ' + shipment.getRecipient().lastName}" style="font-size: 0.95rem; line-height: 1.2;"></strong>
+                                        </div>
+                                        <div class="d-flex align-items-center" th:if="${shipment.getRecipient().organizationName != null and shipment.getRecipient().organizationName != ''}">
+                                            <i class="fas fa-building me-2 text-muted" style="font-size: 0.8rem;"></i>
+                                            <strong th:text="${shipment.getRecipient().organizationName}" style="font-size: 0.8rem;"></strong>
+                                        </div>
+                                        <small class="text-muted" style="font-size: 0.75rem;">
+                                            <i class="fas fa-phone me-1"></i>
+                                            <span th:text="${shipment.getRecipient().telephone}"></span>
+                                        </small>
+                                    </div>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <div class="route-info">
+                                        <div class="departure">
+                                            <i class="fas fa-map-marker-alt text-danger me-1" style="font-size: 0.9rem;"></i>
+                                            <strong th:text="${shipment.departurePoint}" style="font-size: 0.9rem;"></strong>
+                                            <div class="address" th:text="${shipment.getDepartureAddress().city + ', ul. ' + shipment.getDepartureAddress().street + ', №' + shipment.getDepartureAddress().streetNum}"></div>
+                                        </div>
+                                        <div class="arrival">
+                                            <i class="fas fa-map-marker-alt text-success me-1" style="font-size: 0.9rem;"></i>
+                                            <strong th:text="${shipment.arrivalPoint}" style="font-size: 0.9rem;"></strong>
+                                            <div class="address" th:text="${shipment.getArrivalAddress().city + ', ul. ' + shipment.getArrivalAddress().street + ', №' + shipment.getArrivalAddress().streetNum}"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="badge badge-warning" th:text="${shipment.weight != null and shipment.weight != 'null' ? shipment.weight + ' kg' : '-'}" style="font-size: 0.85rem; padding: 6px 10px;"></span>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <div class="employee-info">
+                                        <small class="text-muted" style="font-size: 0.8rem;">
+                                            <i class="fas fa-user-plus me-1"></i>
+                                            <span th:text="'Reg: ' + ${shipment.registrantEmployeeId}"></span>
+                                        </small>
+                                        <small class="text-muted" th:if="${shipment.processedByEmployeeId}" style="font-size: 0.8rem;">
+                                            <i class="fas fa-user-check me-1"></i>
+                                            <span th:text="'Proc: ' + ${shipment.processedByEmployeeId}"></span>
+                                        </small>
+                                    </div>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="badge status-badge" 
+                                          th:classappend="${shipment.shipmentState == 'DELIVERED'} ? 'badge-success' : 
+                                                         (${shipment.shipmentState == 'IN_TRANSPORT'} ? 'badge-info' : 
+                                                         (${shipment.shipmentState == 'READY_FOR_TRANSPORT'} ? 'badge-warning' : 'badge-secondary'))"
+                                          th:text="${shipment.shipmentState}"></span>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span th:if="${shipment.deliveredDateTime}" class="text-success" style="font-size: 0.85rem;">
+                                        <i class="fas fa-check-circle me-1"></i>
+                                        <span th:text="${shipment.deliveredDateTime}"></span>
+                                    </span>
+                                    <span th:unless="${shipment.deliveredDateTime}" class="text-muted" style="font-size: 0.85rem;">
+                                        <i class="fas fa-clock me-1"></i>Pending
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Status Change Form -->
+            <div class="form-container fade-in" style="padding: 2.5rem; margin-top: 2rem;">
+                <h3 class="section-title mb-4" style="font-size: 1.3rem;">
+                    <i class="fas fa-edit me-2"></i>Change Status
+                </h3>
+                <form action="#" th:action="@{/shipments/change-status/{id}(id=${id})}" th:object="${changeShipmentStatus}" method="post">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-7">
+                            <div class="form-group mb-4">
+                                <label for="shipmentStatus" class="form-label" style="font-size: 1.1rem; margin-bottom: 0.75rem;">
+                                    <i class="fas fa-list me-2"></i>New Status
+                                </label>
+                                <select class="form-control" name="shipmentStatus" id="shipmentStatus" style="font-size: 1rem; padding: 12px 16px; height: auto;">
+                                    <option value="">Select new status...</option>
+                                    <option th:each="shipmentState : ${shipmentStates}"
+                                            th:value="${shipmentState.getShipmentState()}"
+                                            th:text="${shipmentState.getShipmentState()}">
+                                    </option>
+                                </select>
+                                <span class="text-danger" th:if="${#fields.hasErrors('shipmentStatus')}" 
+                                      th:errors="*{shipmentStatus}" style="font-size: 0.9rem; margin-top: 0.5rem; display: block;">Status selection is required</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-5 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100" style="font-size: 1rem; padding: 12px 24px; height: auto;">
+                                <i class="fas fa-save me-2"></i>Update Status
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 <footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

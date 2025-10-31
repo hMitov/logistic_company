@@ -3,17 +3,49 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Shipments by sender</h4>
-<div class="col-12">
-    <form th:action="@{/reference/shipments/sent-by-sender}" th:object="${shipmentsBySender}" method="get">
-        <div class="form-group col-6">
-            <h2>Sender's telephone</h2>
-            <input class="form-control mt-4" type="text" th:field="*{telephone}" placeholder="Sender's telephone"
-                   id="senderTelephone">
-            <span class="text-danger" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}">Sender's telephone has error</span>
+
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-paper-plane me-3" style="font-size: 2rem; color: var(--secondary-color);"></i>
+            <div>
+                <h1 class="text-gradient mb-0">Shipments by Sender</h1>
+                <p class="text-muted mb-0">Search for shipments sent by a specific sender</p>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Get shipments</button>
-    </form>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <!-- Search Form -->
+            <div class="form-container fade-in">
+                <h3 class="section-title mb-3">
+                    <i class="fas fa-user me-2"></i>Sender Search
+                </h3>
+                <form th:action="@{/reference/shipments/sent-by-sender}" th:object="${shipmentsBySender}" method="get">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="senderTelephone" class="form-label">
+                                    <i class="fas fa-phone me-2"></i>Sender's Telephone
+                                </label>
+                                <input class="form-control" type="text" th:field="*{telephone}" placeholder="Enter sender's telephone number"
+                                       id="senderTelephone">
+                                <span class="text-danger" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}">Telephone number is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>Get Shipments
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+<footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

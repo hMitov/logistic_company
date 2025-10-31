@@ -3,70 +3,211 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<h4>Show all Employees</h4>
-<div class="col-12">
-    <h3 th:unless="${suppliers} and ${suppliers.size()}">There are no suppliers!</h3>
-    <div style="max-height: 400px; overflow-y: auto;">
-        <h3 th:unless="${suppliers} and ${suppliers.size()}">There are no suppliers!</h3>
-        <h3>Suppliers</h3>
-        <table th:if="${suppliers.size()>0}" class="table table-hover">
-            <th>Id</th>
-            <th>Egn</th>
-            <th>First name</th>
-            <th>Middle name</th>
-            <th>Last name</th>
-            <th>Employee id</th>
-            <th>Salary</th>
-            <th>Date of employee</th>
-            <th>Current employee</th>
-            <th>Driving license categories</th>
-            <th>Vehicle id</th>
-            <tr th:each="supplier : ${suppliers}">
-                <td th:text="${supplier.id}"></td>
-                <td th:text="${supplier.egn}"></td>
-                <td th:text="${supplier.firstName}"></td>
-                <td th:text="${supplier.middleName}"></td>
-                <td th:text="${supplier.lastName}"></td>
-                <td th:text="${supplier.employeeId}"></td>
-                <td th:text="${supplier.salary}"></td>
-                <td th:text="${supplier.dateOfEmploy}"></td>
-                <td th:text="${supplier.getCurrentEmployee() ? 'Yes' : 'No'}"></td>
-                <td th:text="${supplier.getDrivingLicenseCategories()}"></td>
-                <td th:text="${supplier?.getVehicle()?.vehicleId}"></td>
-            </tr>
-        </table>
-        <br>
-        <br>
-        <br>
-        <br>
-        <h3 th:unless="${officeEmployees} and ${officeEmployees.size()}">There are no office employees!</h3>
-        <h3>Office employees</h3>
-        <table th:if="${officeEmployees.size()>0}" class="table table-hover">
-            <th>Id</th>
-            <th>Egn</th>
-            <th>First name</th>
-            <th>Middle name</th>
-            <th>Last name</th>
-            <th>Employee id</th>
-            <th>Salary</th>
-            <th>Date of employ</th>
-            <th>Current employee</th>
-            <th>Office</th>
-            <tr th:each="officeEmployee : ${officeEmployees}">
-                <td th:text="${officeEmployee.id}"></td>
-                <td th:text="${officeEmployee.egn}"></td>
-                <td th:text="${officeEmployee.firstName}"></td>
-                <td th:text="${officeEmployee.middleName}"></td>
-                <td th:text="${officeEmployee.lastName}"></td>
-                <td th:text="${officeEmployee.employeeId}"></td>
-                <td th:text="${officeEmployee.salary}"></td>
-                <td th:text="${officeEmployee.dateOfEmploy}"></td>
-                <td th:text="${officeEmployee.getCurrentEmployee() ? 'Yes' : 'No'}"></td>
-                <td th:text="${officeEmployee.getOffice() ne null and officeEmployee.getOffice().getOfficeAddress() ne null} ? ${officeEmployee.getOffice().getOfficeAddress().city + ', ' + officeEmployee.getOffice().getOfficeAddress().street + ', ' + officeEmployee.getOffice().getOfficeAddress().streetNum} : ''"></td>
-            </tr>
-        </table>
+
+<div class="container main-container">
+    <div class="page-header fade-in">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-users me-3" style="font-size: 2.5rem; color: var(--secondary-color);"></i>
+            <div>
+                <h1 class="text-gradient mb-0" style="font-size: 2.2rem;">All Employees</h1>
+                <p class="text-muted mb-0" style="font-size: 1.1rem;">View and manage all employees in the system</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <!-- Suppliers Section -->
+            <div class="table-container fade-in mb-4">
+                <h3 class="section-title mb-3">
+                    <i class="fas fa-truck me-2"></i>Suppliers
+                </h3>
+                
+                <!-- Empty State for Suppliers -->
+                <div th:unless="${suppliers} and ${suppliers.size()}" class="empty-state">
+                    <i class="fas fa-truck"></i>
+                    <h3>No Suppliers Found</h3>
+                    <p>There are currently no suppliers in the system.</p>
+                </div>
+                
+                <!-- Suppliers Table -->
+                <div th:if="${suppliers.size()>0}" class="table-responsive">
+                    <table class="table table-hover supplier-details-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 6%; min-width: 60px;"><i class="fas fa-hashtag me-2"></i>ID</th>
+                                <th style="width: 20%; min-width: 200px;"><i class="fas fa-user me-2"></i>Driver Information</th>
+                                <th style="width: 15%; min-width: 150px;"><i class="fas fa-id-card me-2"></i>Employee Details</th>
+                                <th style="width: 10%; min-width: 100px;"><i class="fas fa-euro-sign me-2"></i>Salary</th>
+                                <th style="width: 20%; min-width: 200px;"><i class="fas fa-car me-2"></i>Vehicle & License</th>
+                                <th style="width: 12%; min-width: 120px;"><i class="fas fa-info-circle me-2"></i>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="supplier : ${suppliers}">
+                                <td>
+                                    <span class="badge badge-info" th:text="${supplier.id}"></span>
+                                </td>
+                                <td>
+                                    <div class="driver-info">
+                                        <strong th:text="${supplier.firstName + ' ' + (supplier.middleName != null ? supplier.middleName + ' ' : '') + supplier.lastName}"></strong>
+                                        <div class="mt-1">
+                                            <small class="text-muted">
+                                                <i class="fas fa-id-card me-1"></i>
+                                                <span th:text="${supplier.egn}"></span>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="employee-info">
+                                        <div class="d-flex align-items-center mb-1">
+                                            <i class="fas fa-id-card me-1 text-primary"></i>
+                                            <small class="text-muted fw-semibold">Employee ID:</small>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="badge badge-info" th:text="${supplier.employeeId}"></span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <i class="fas fa-calendar me-1 text-primary"></i>
+                                            <small class="text-muted fw-semibold">Starting Date:</small>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted" th:text="${supplier.dateOfEmploy}"></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-euro-sign me-1 text-success"></i>
+                                        <span class="text-success fw-bold" th:text="${supplier.salary}"></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="vehicle-info">
+                                        <div class="d-flex align-items-center mb-1">
+                                            <i class="fas fa-car me-1 text-primary"></i>
+                                            <small class="text-muted fw-semibold">Vehicle:</small>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span th:if="${supplier.getVehicle()?.vehicleId}" class="badge badge-info" th:text="${supplier.getVehicle().vehicleId}"></span>
+                                            <span th:unless="${supplier.getVehicle()?.vehicleId}" class="badge badge-secondary">No Vehicle</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <i class="fas fa-id-badge me-1 text-primary"></i>
+                                            <small class="text-muted fw-semibold">Driving Categories:</small>
+                                        </div>
+                                        <div>
+                                            <div th:if="${supplier.getDrivingLicenseCategories()}" class="driving-categories">
+                                                <span th:each="category, iterStat : ${supplier.getDrivingLicenseCategories()}" 
+                                                      class="badge badge-warning me-1 mb-1" 
+                                                      th:text="${category}"></span>
+                                            </div>
+                                            <div th:unless="${supplier.getDrivingLicenseCategories()}" class="text-muted">
+                                                <small><i class="fas fa-exclamation-triangle me-1"></i>No License</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span
+                                          th:classappend="${supplier.getCurrentEmployee()} ? 'text-success' : 'text-danger'"
+                                          th:text="${supplier.getCurrentEmployee() ? 'Active' : 'Inactive'}"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Office Employees Section -->
+            <div class="table-container fade-in">
+                <h3 class="section-title mb-3">
+                    <i class="fas fa-building me-2"></i>Office Employees
+                </h3>
+                
+                <!-- Empty State for Office Employees -->
+                <div th:unless="${officeEmployees} and ${officeEmployees.size()}" class="empty-state">
+                    <i class="fas fa-building"></i>
+                    <h3>No Office Employees Found</h3>
+                    <p>There are currently no office employees in the system.</p>
+                </div>
+                
+                <!-- Office Employees Table -->
+                <div th:if="${officeEmployees.size()>0}" class="table-responsive">
+                    <table class="table table-hover employee-details-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 6%; min-width: 60px;"><i class="fas fa-hashtag me-2"></i>ID</th>
+                                <th style="width: 12%; min-width: 100px;"><i class="fas fa-id-card me-2"></i>EGN</th>
+                                <th style="width: 12%; min-width: 100px;"><i class="fas fa-user me-2"></i>First Name</th>
+                                <th style="width: 10%; min-width: 80px;"><i class="fas fa-user me-2"></i>Middle Name</th>
+                                <th style="width: 12%; min-width: 100px;"><i class="fas fa-user me-2"></i>Last Name</th>
+                                <th style="width: 10%; min-width: 80px;"><i class="fas fa-id-badge me-2"></i>Employee ID</th>
+                                <th style="width: 10%; min-width: 80px;"><i class="fas fa-euro-sign me-2"></i>Salary</th>
+                                <th style="width: 12%; min-width: 100px;"><i class="fas fa-calendar-alt me-2"></i>Date of Employ</th>
+                                <th style="width: 16%; min-width: 150px;"><i class="fas fa-building me-2"></i>Office Address</th>
+                                <th style="width: 8%; min-width: 80px;"><i class="fas fa-info-circle me-2"></i>Currently Employee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="officeEmployee : ${officeEmployees}">
+                                <td>
+                                    <span class="badge badge-info" th:text="${officeEmployee.id}"></span>
+                                </td>
+                                <td>
+                                    <code th:text="${officeEmployee.egn}"></code>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-user me-1 text-primary"></i>
+                                        <strong class="text-primary" th:text="${officeEmployee.firstName}"></strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong class="text-primary" th:text="${officeEmployee.middleName ?: '-'}"></strong>
+                                </td>
+                                <td>
+                                    <strong class="text-primary" th:text="${officeEmployee.lastName}"></strong>
+                                </td>
+                                <td>
+                                    <span class="badge badge-warning" th:text="${officeEmployee.employeeId}"></span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-euro-sign me-1 text-success"></i>
+                                        <span class="text-success fw-bold" th:text="${officeEmployee.salary}"></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-calendar me-1 text-info"></i>
+                                        <span class="text-info" th:text="${officeEmployee.dateOfEmploy}"></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-building me-1 text-muted"></i>
+                                            <strong th:text="${officeEmployee.getOffice() ne null and officeEmployee.getOffice().getOfficeAddress() ne null} ? ${officeEmployee.getOffice().getOfficeAddress().city} : 'No Office'"></strong>
+                                        </div>
+                                        <small class="text-muted" th:text="${officeEmployee.getOffice() ne null and officeEmployee.getOffice().getOfficeAddress() ne null} ? 'ul. ' + ${officeEmployee.getOffice().getOfficeAddress().street} + ', №' + ${officeEmployee.getOffice().getOfficeAddress().streetNum} : ''"></small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span
+                                          th:classappend="${officeEmployee.getCurrentEmployee()} ? 'text-success' : 'text-danger'"
+                                          th:text="${officeEmployee.getCurrentEmployee() ? 'Yes' : 'No'}"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 <footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

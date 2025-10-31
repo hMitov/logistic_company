@@ -6,26 +6,72 @@ and open the template in the editor.
 -->
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:fragment="head">
-    <title>Logistic company</title>
+    <title>Logistic Company Speeed</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/bootstrap.min.css" rel="stylesheet" th:href="@{/bootstrap.min.css}"/>
+    <link href="/css/custom.css" rel="stylesheet" th:href="@{/css/custom.css}"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script th:src="@{/popper.min.js}"></script>
     <script th:src="@{/bootstrap.min.js}"></script>
 </head>
 <header th:fragment="header">
-    <div class="row m-0 p-3 bg-info text-white">
-        <h1 class="col-3">Logistic company Speeed</h1>
-        <img th:src="@{/img/truck-large.svg}" style="max-height: 100px; max-width: 100px" alt="">
-        <div class="col-12" sec:authorize="isAuthenticated()">
-            <span sec:authentication="name"></span>
-            <a class="btn" th:href="@{/logout}">Logout</a>
+    <div class="header-main" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);">
+        <div class="container-fluid">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-8 d-flex align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div class="logo-container me-4">
+                            <img th:src="@{/img/truck-large.svg}" class="truck-logo" alt="Truck Logo">
+                            <div class="logo-glow"></div>
+                        </div>
+                        <div class="company-info">
+                            <h1 class="company-title mb-1">Logistic Company Speeed</h1>
+                            <p class="company-tagline mb-0">Fast • Reliable • Professional</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-end" sec:authorize="isAuthenticated()">
+                    <div class="user-section">
+                        <div class="user-info d-flex align-items-center justify-content-end">
+                            <div class="user-avatar me-3">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="user-details me-3">
+                                <div class="user-name" sec:authentication="name"></div>
+                                <div class="user-role text-white-50">
+                                    <i class="fas fa-shield-alt me-1"></i>
+                                    <span sec:authentication="authorities">User</span>
+                                </div>
+                            </div>
+                            <a class="btn btn-outline-light btn-sm logout-btn" th:href="@{/logout}">
+                                <i class="fas fa-sign-out-alt me-1"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Unauthenticated user section -->
+                <div class="col-lg-4 text-end" sec:authorize="!isAuthenticated()">
+                    <div class="auth-section">
+                        <div class="d-flex align-items-center justify-content-end gap-2">
+                            <a class="btn btn-outline-light btn-sm" th:href="@{/login}">
+                                <i class="fas fa-sign-in-alt me-1"></i>Sign In
+                            </a>
+                            <a class="btn btn-light btn-sm" th:href="@{/register}">
+                                <i class="fas fa-user-plus me-1"></i>Create Account
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+    <!-- Navigation - Only show for authenticated users -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" sec:authorize="isAuthenticated()">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img th:src="@{/img/home-outline.svg}" alt="">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-home text-primary"></i>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -37,119 +83,141 @@ and open the template in the editor.
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Office
+                            <i class="fas fa-building me-1"></i>Office
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
                             <li sec:authorize="hasAnyAuthority('ADMIN')"><a class="dropdown-item"
-                                                                            href="/offices/create-office">Create
-                                office</a></li>
-                            <li sec:authorize="isAuthenticated()"><a class="dropdown-item" href="/offices">List of
-                                offices</a></li>
+                                                                            href="/offices/create-office">
+                                <i class="fas fa-plus me-2"></i>Create office</a></li>
+                            <li sec:authorize="isAuthenticated()"><a class="dropdown-item" href="/offices">
+                                <i class="fas fa-list me-2"></i>List of offices</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ADMIN')">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Office employee
+                            <i class="fas fa-users me-1"></i>Office employee
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                            <li><a class="dropdown-item" href="/office-employees/create-office-employee">Create
-                                office
-                                employee</a></li>
-                            <li><a class="dropdown-item" href="/office-employees">List of office employees</a></li>
+                            <li><a class="dropdown-item" href="/office-employees/create-office-employee">
+                                <i class="fas fa-user-plus me-2"></i>Create office employee</a></li>
+                            <li><a class="dropdown-item" href="/office-employees">
+                                <i class="fas fa-list me-2"></i>List of office employees</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ADMIN')">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Supplier
+                            <i class="fas fa-truck me-1"></i>Supplier
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
-                            <li><a class="dropdown-item" href="/suppliers/create-supplier">Create supplier</a></li>
-                            <li><a class="dropdown-item" href="/suppliers">List of suppliers</a></li>
+                            <li><a class="dropdown-item" href="/suppliers/create-supplier">
+                                <i class="fas fa-plus me-2"></i>Create supplier</a></li>
+                            <li><a class="dropdown-item" href="/suppliers">
+                                <i class="fas fa-list me-2"></i>List of suppliers</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown"
                         sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Vehicle
+                            <i class="fas fa-car me-1"></i>Vehicle
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
                             <li sec:authorize="hasAnyAuthority('ADMIN')"><a class="dropdown-item"
-                                                                            href="/vehicles/create-vehicle">Create
-                                vehicle</a></li>
+                                                                            href="/vehicles/create-vehicle">
+                                <i class="fas fa-plus me-2"></i>Create vehicle</a></li>
                             <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')"><a
-                                    class="dropdown-item" href="/vehicles">List of vehicles</a></li>
+                                    class="dropdown-item" href="/vehicles">
+                                <i class="fas fa-list me-2"></i>List of vehicles</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown5" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Shipment
+                            <i class="fas fa-box me-1"></i>Shipment
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown5">
                             <li sec:authorize="hasAnyAuthority('ADMIN', 'CUSTOMER', 'OFFICE_EMPLOYEE')">
-                                <a class="dropdown-item" href="/shipments/create-shipment">Create shipment</a>
+                                <a class="dropdown-item" href="/shipments/create-shipment">
+                                    <i class="fas fa-plus me-2"></i>Create shipment</a>
                             </li>
                             <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
-                                <a class="dropdown-item" href="/shipments/transport-ready">Shipments ready for
-                                    transport</a>
+                                <a class="dropdown-item" href="/shipments/transport-ready">
+                                    <i class="fas fa-truck-loading me-2"></i>Shipments ready for transport</a>
                             </li>
                             <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
-                                <a class="dropdown-item" href="/shipments/in-transport">Shipments in transport</a>
+                                <a class="dropdown-item" href="/shipments/in-transport">
+                                    <i class="fas fa-shipping-fast me-2"></i>Shipments in transport</a>
                             </li>
                             <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
-                                <a class="dropdown-item" href="/shipments/process">Shipments for processing</a>
+                                <a class="dropdown-item" href="/shipments/process">
+                                    <i class="fas fa-cogs me-2"></i>Shipments for processing</a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown6" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Company references
+                            <i class="fas fa-chart-bar me-1"></i>Company references
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown6">
                             <li sec:authorize="hasAnyAuthority('ADMIN')">
-                                <a class="dropdown-item" href="/reference/shipments/employees">List of all employees</a>
+                                <a class="dropdown-item" href="/reference/shipments/employees">
+                                    <i class="fas fa-users me-2"></i>List of all employees</a>
                             </li>
                             <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
-                                <a class="dropdown-item" href="/reference/shipments">List of all registered
-                                    shipments</a>
+                                <a class="dropdown-item" href="/reference/shipments">
+                                    <i class="fas fa-list me-2"></i>List of all registered shipments</a>
                             </li>
                             <li sec:authorize="hasAnyAuthority('ADMIN', 'OFFICE_EMPLOYEE')">
-                                <a class="dropdown-item" href="/reference/shipments-by-employee">List of all shipments
-                                    registered by employee</a>
+                                <a class="dropdown-item" href="/reference/shipments-by-employee">
+                                    <i class="fas fa-user-tie me-2"></i>List of all shipments registered by employee</a>
                             </li>
                             <li sec:authorize="hasAnyAuthority('ADMIN', 'SUPPLIER', 'OFFICE_EMPLOYEE')">
-                                <a class="dropdown-item" href="/reference/shipments/sent">List of all sent but not
-                                    received shipments</a>
+                                <a class="dropdown-item" href="/reference/shipments/sent">
+                                    <i class="fas fa-paper-plane me-2"></i>List of all sent but not received shipments</a>
                             </li>
                             <li sec:authorize="isAuthenticated()">
-                                <a class="dropdown-item" href="/reference/shipments-by-sender">List of all sent
-                                    shipments by sender</a>
+                                <a class="dropdown-item" href="/reference/shipments-by-sender">
+                                    <i class="fas fa-paper-plane me-2"></i>List of all sent shipments by sender</a>
                             </li>
                             <li sec:authorize="isAuthenticated()">
-                                <a class="dropdown-item" href="/reference/shipments-by-recipient">List of
-                                    all received shipments by recipient</a>
+                                <a class="dropdown-item" href="/reference/shipments-by-recipient">
+                                    <i class="fas fa-inbox me-2"></i>List of all received shipments by recipient</a>
                             </li>
                             <li sec:authorize="hasAnyAuthority('ADMIN')">
-                                <a class="dropdown-item" href="/reference/income-for-period">Total income of company</a>
+                                <a class="dropdown-item" href="/reference/income-for-period">
+                                    <i class="fas fa-dollar-sign me-2"></i>Total income of company</a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a sec:authorize="hasAnyAuthority('ADMIN')" class="nav-link" href="/user/register">Create
-                            employee user</a>
+                        <a sec:authorize="hasAnyAuthority('ADMIN')" class="nav-link" href="/user/register">
+                            <i class="fas fa-user-plus me-1"></i>Create employee user</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
-<footer page-footer font-small>
-    <div class="footer-copyright text-center py-3">© 2020 Copyright:
-        <a href="#">Logistic company</a>
+<footer th:fragment="footer" class="footer-copyright text-center py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="mb-0">
+                    <i class="fas fa-truck me-2"></i>
+                    © 2025 Logistic Company Speeed. All rights reserved.
+                </p>
+                <p class="mb-0 mt-2">
+                    <small class="text-muted">
+                        <i class="fas fa-envelope me-1"></i>contact@logisticspeeed.com
+                        <span class="mx-2">|</span>
+                        <i class="fas fa-phone me-1"></i>+1 (555) 123-4567
+                    </small>
+                </p>
+            </div>
+        </div>
     </div>
 </footer>
 </html>
